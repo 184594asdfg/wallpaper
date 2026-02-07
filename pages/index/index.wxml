@@ -61,7 +61,7 @@
     </view>
     
     <!-- 时间和日期显示 -->
-    <view class="preview-time-date" style="top: {{previewNavTop + 40}}px;">
+    <view class="preview-time-date" style="top: {{timeDateHeight}}px; height: {{timeDateHeight}}px;">
       <text class="preview-time">{{currentTime}}</text>
       <text class="preview-date">{{currentDate}}</text>
     </view>

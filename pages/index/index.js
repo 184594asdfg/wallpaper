@@ -15,6 +15,8 @@ Page({
     currentPreviewWallpaper: null,
     // 预览页面导航栏位置
     previewNavTop: 0,
+    // 时间日期高度相关值
+    timeDateHeight: 0,
     // 时间和日期
     currentTime: '',
     currentDate: ''
@@ -55,9 +57,10 @@ Page({
   calculatePreviewNavPosition() {
     // 获取胶囊按钮位置
     const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
-    // 设置预览页面导航栏顶部距离
+    // 设置预览页面导航栏顶部距离和时间日期高度相关值
     this.setData({
-      previewNavTop: menuButtonInfo.top
+      previewNavTop: menuButtonInfo.height + 15,
+      timeDateHeight: menuButtonInfo.height + 50
     });
   },
   
