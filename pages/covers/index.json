@@ -1,0 +1,13 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "封面素材库",
+  "navigationBarBackgroundColor": "#000000",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#2c3e50",
+  "backgroundTextStyle": "light",
+  "usingComponents": {
+    "tab-navigation": "/components/tab-navigation/tab-navigation",
+    "wallpaper-preview": "/components/wallpaper-preview/wallpaper-preview"
+  }
+}

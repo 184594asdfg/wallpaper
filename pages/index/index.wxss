@@ -1,7 +1,337 @@
 /* index.wxss */
-.container {
+/* 自定义导航栏样式 */
+.custom-nav-bar {
+  height: 44px;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.nav-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* 内容区域 - 统一白色背景 */
+.content-section {
+  border-radius: 0rpx;
+  margin: 0rpx;
+  padding: 0rpx;
+  box-shadow: none;
+  min-height: calc(100vh - 44px);
+  padding-top: 44px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+/* 分类区域 */
+.category-section {
+  background: transparent;
+  border-radius: 0rpx;
+  padding: 0rpx 8rpx 20rpx;
+  margin-bottom: 0rpx;
+  box-shadow: none;
+}
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-tab {
+  padding: 16rpx 28rpx;
+  background: transparent;
+  border-radius: 0rpx;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  white-space: nowrap;
+  text-align: center;
+  min-width: 100rpx;
+  position: relative;
+  font-weight: 400;
+}
+
+.category-tab.active {
+  color: #fff;
+  font-weight: 500;
+}
+
+.category-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background: #fff;
+  border-radius: 0;
+}
+
+.category-tab:active {
+  opacity: 0.7;
+}
+
+/* 壁纸网格 - 紧凑间距布局 */
+.covers-section {
+  background: transparent;
+  border-radius: 0rpx;
+  padding: 0rpx;
+  margin: 0rpx;
+  box-shadow: none;
+}
+
+.covers-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0rpx;
+  padding: 0 8rpx 20rpx;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 8rpx;
+}
+
+.cover-item {
+  width: calc((100% - 16rpx) / 3);
+  aspect-ratio: 9/16;
+  border-radius: 8rpx;
+  position: relative;
+  background: transparent;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+  padding: 0rpx;
+  margin: 0rpx;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-item:active {
+  transform: scale(0.98);
+  box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0.12);
+}
+
+.cover-image-container {
+  width: 100%;
+  height: 100%;
+  margin: 0rpx;
+  padding: 0rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.cover-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  vertical-align: middle;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+  background: transparent;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.empty-text {
+  display: block;
+  font-size: 32rpx;
+  margin-bottom: 10rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.empty-desc {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* 壁纸预览模态框 */
+.wallpaper-preview-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+}
+
+.preview-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.preview-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  background: #000000;
+  padding: 0;
+  margin: 0;
+}
+
+
+/* 预览界面返回容器 */
+.preview-return-navbar {
+  position: absolute;
+  top: 20rpx;
+  left: 20rpx;
+  width: 158rpx;
+  height: 57rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  background: transparent;
+  border: none;
+  gap: 14rpx;
+}
+
+/* 导航栏按钮通用样式 */
+.nav-button {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-width: 40rpx;
+  min-height: 40rpx;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10rpx);
+  border-radius: 20rpx;
+  border: 0.5rpx solid rgba(255, 255, 255, 0.23);
+}
+
+.nav-button:active {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8rpx;
+}
+
+/* 导航栏图标样式 */
+.nav-icon {
+  width: 32rpx;
+  height: 32rpx;
+  color: #fff;
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 壁纸展示区域 */
+.wallpaper-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* 壁纸包装器 */
+.wallpaper-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #000000;
+  overflow: hidden;
+}
+
+.wallpaper-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0rpx;
+  display: block;
+}
+
+/* 底部下载按钮 */
+.preview-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+}
+
+.download-btn {
+  width: 60%;
+  height: 96rpx;
+  background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+  border: none;
+  border-radius: 48rpx;
+  color: #ffffff;
+  font-size: 34rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  box-shadow: 0 12rpx 32rpx rgba(0, 122, 255, 0.4);
+  transition: all 0.3s ease;
+  min-height: 96rpx;
+}
+
+.download-btn:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 6rpx 16rpx rgba(0, 122, 255, 0.6);
+  background: linear-gradient(135deg, #0056CC 0%, #003D99 100%);
+}
+
+.download-icon {
+  font-size: 32rpx;
+}
+
+.download-text {
+  font-size: 32rpx;
+  font-weight: 600;
 }

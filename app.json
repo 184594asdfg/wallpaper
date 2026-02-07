@@ -4,9 +4,7 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "壁纸小程序",
-    "navigationBarTextStyle": "black"
+    "navigationStyle": "custom"
   },
   "sitemapLocation": "sitemap.json"
 }
