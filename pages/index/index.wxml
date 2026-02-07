@@ -30,7 +30,7 @@
         wx:key="id"
       >
         <view class="cover-image-container">
-          <image class="cover-image" src="{{item.image}}" mode="aspectFit" bindtap="previewWallpaper" data-wallpaper="{{item}}" lazy-load="true"></image>
+          <image class="cover-image" src="{{item.image}}" mode="aspectFill" bindtap="previewWallpaper" data-wallpaper="{{item}}" lazy-load="true"></image>
         </view>
       </view>
     </view>
@@ -53,11 +53,17 @@
   <view class="preview-content" catchtouchmove="preventTouchMove">
 
     <!-- 预览界面返回容器 -->
-    <view class="preview-return-navbar">
+    <view class="preview-return-navbar" style="top: {{previewNavTop}}px;">
       <!-- 左边返回按钮 -->
       <view class="nav-button left-button" catchtap="onClosePreview">
         <text class="nav-icon">←</text>
       </view>
+    </view>
+    
+    <!-- 时间和日期显示 -->
+    <view class="preview-time-date" style="top: {{previewNavTop + 40}}px;">
+      <text class="preview-time">{{currentTime}}</text>
+      <text class="preview-date">{{currentDate}}</text>
     </view>
     
     <!-- 壁纸展示区域 -->

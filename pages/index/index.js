@@ -12,13 +12,53 @@ Page({
     wallpapers: [],
     // 预览状态
     showPreview: false,
-    currentPreviewWallpaper: null
+    currentPreviewWallpaper: null,
+    // 预览页面导航栏位置
+    previewNavTop: 0,
+    // 时间和日期
+    currentTime: '',
+    currentDate: ''
   },
   
   onLoad() {
     // 页面加载时执行
     this.loadWallpapers(0); // 默认加载手机壁纸
     this.calculateCategoryPosition(); // 计算分类区域位置
+    this.calculatePreviewNavPosition(); // 计算预览页面导航栏位置
+    this.updateDateTime(); // 更新时间和日期
+    // 每秒更新一次时间
+    this.timeInterval = setInterval(() => {
+      this.updateDateTime();
+    }, 1000);
+  },
+  
+  // 更新时间和日期
+  updateDateTime() {
+    const now = new Date();
+    // 格式化时间
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const currentTime = `${hours}:${minutes}`;
+    
+    // 格式化日期（只显示月日）
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const currentDate = `${month}月${day}日`;
+    
+    this.setData({
+      currentTime: currentTime,
+      currentDate: currentDate
+    });
+  },
+  
+  // 计算预览页面导航栏位置
+  calculatePreviewNavPosition() {
+    // 获取胶囊按钮位置
+    const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
+    // 设置预览页面导航栏顶部距离
+    this.setData({
+      previewNavTop: menuButtonInfo.top
+    });
   },
   
   // 计算分类区域位置
@@ -106,6 +146,7 @@ Page({
   // 预览壁纸
   previewWallpaper(e) {
     const wallpaper = e.currentTarget.dataset.wallpaper;
+    this.calculatePreviewNavPosition(); // 重新计算预览页面导航栏位置
     this.setData({
       showPreview: true,
       currentPreviewWallpaper: wallpaper
@@ -133,5 +174,13 @@ Page({
   // 阻止触摸移动
   preventTouchMove() {
     // 阻止触摸移动，防止模态框滑动
+  },
+  
+  // 页面卸载时执行
+  onUnload() {
+    // 清除时间更新定时器
+    if (this.timeInterval) {
+      clearInterval(this.timeInterval);
+    }
   }
 })
