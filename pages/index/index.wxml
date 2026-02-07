@@ -1,0 +1,4 @@
+<!--index.wxml-->
+<view class="container">
+  <text>壁纸小程序</text>
+</view>
