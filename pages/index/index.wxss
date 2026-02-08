@@ -130,7 +130,7 @@
 .feature-avatar {
   width: 80rpx;
   height: 80rpx;
-  border-radius: 20rpx;
+  border-radius: 50%;
   margin-bottom: 12rpx;
   display: flex;
   align-items: center;
