@@ -8,6 +8,12 @@ Page({
       { id: 1, name: '手机壁纸', value: 0, active: true },
       { id: 2, name: '电脑壁纸', value: 1, active: false }
     ],
+    // 轮播图数据
+    carouselList: [
+      { id: 1, bgColor: '#3498db' },
+      { id: 2, bgColor: '#2ecc71' },
+      { id: 3, bgColor: '#9b59b6' }
+    ],
     // 壁纸数据
     wallpapers: [],
     // 预览状态
@@ -17,6 +23,11 @@ Page({
     previewNavTop: 0,
     // 时间日期高度相关值
     timeDateHeight: 0,
+    // 导航栏相关值
+    navBarHeight: 0,
+    navBarTop: 0,
+    // 搜索框相关值
+    searchBoxWidth: 0,
     // 时间和日期
     currentTime: '',
     currentDate: ''
@@ -25,6 +36,7 @@ Page({
   onLoad() {
     // 页面加载时执行
     this.loadWallpapers(0); // 默认加载手机壁纸
+    this.calculateNavBarPosition(); // 计算导航栏位置和高度
     this.calculateCategoryPosition(); // 计算分类区域位置
     this.calculatePreviewNavPosition(); // 计算预览页面导航栏位置
     this.updateDateTime(); // 更新时间和日期
@@ -32,6 +44,25 @@ Page({
     this.timeInterval = setInterval(() => {
       this.updateDateTime();
     }, 1000);
+  },
+  
+  // 计算导航栏位置和高度
+  calculateNavBarPosition() {
+    // 获取胶囊按钮位置
+    const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
+    // 获取屏幕宽度
+    const screenWidth = wx.getSystemInfoSync().windowWidth;
+    // 计算搜索框宽度（屏幕宽度减去左侧分享区域和右侧胶囊按钮区域的宽度）
+    const leftAreaWidth = 80; // 左侧分享区域宽度
+    const rightAreaWidth = menuButtonInfo.right - menuButtonInfo.left + 20; // 右侧胶囊按钮区域宽度（包含边距）
+    const searchBoxWidth = screenWidth - leftAreaWidth - rightAreaWidth + 35; // 40为额外边距
+    
+    // 设置导航栏高度、顶部距离和搜索框宽度
+    this.setData({
+      navBarHeight: menuButtonInfo.height + 8,
+      navBarTop: menuButtonInfo.top,
+      searchBoxWidth: searchBoxWidth - 8
+    });
   },
   
   // 更新时间和日期

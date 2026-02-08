@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <!-- 自定义导航栏 -->
-<view class="custom-nav-bar">
+<view class="custom-nav-bar" style="height: {{navBarHeight}}px; top: {{navBarTop}}px;">
   <!-- 左侧分享区域 -->
   <view class="nav-left">
     <view class="share-btn" bindtap="onShare">
@@ -10,12 +10,11 @@
   </view>
   
   <!-- 中间搜索框 -->
-  <view class="nav-center">
-    <view class="search-box">
-      <text class="search-icon">🔍</text>
-      <text class="search-placeholder">搜索壁纸</text>
+    <view class="nav-center">
+      <view class="search-box" style="width: {{searchBoxWidth}}px;">
+        <text class="search-placeholder">搜索壁纸</text>
+      </view>
     </view>
-  </view>
   
   <!-- 右侧预留空间（胶囊按钮） -->
   <view class="nav-right"></view>
@@ -23,8 +22,17 @@
 
 <!-- 内容区域 -->
 <view class="content-section">
+  <!-- 轮播图区域 -->
+  <view class="carousel-section" style="margin-top: {{categoryTop ? categoryTop + 'px' : '40rpx'}}">
+    <swiper class="carousel-swiper" indicator-dots circular autoplay interval="3000">
+      <swiper-item wx:for="{{carouselList}}" wx:key="id">
+        <view class="carousel-item" style="background-color: {{item.bgColor}}"></view>
+      </swiper-item>
+    </swiper>
+  </view>
+  
   <!-- 分类区域 - 极简标签式导航设计 -->
-  <view class="category-section" style="margin-top: {{categoryTop ? categoryTop + 'px' : '40rpx'}}">
+  <view class="category-section">
     <view class="category-tabs">
       <view 
         wx:for="{{categories}}" 
