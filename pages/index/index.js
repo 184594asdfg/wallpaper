@@ -179,6 +179,14 @@ Page({
     // 阻止触摸移动，防止模态框滑动
   },
   
+  // 分享功能
+  onShare() {
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
+    });
+  },
+  
   // 页面卸载时执行
   onUnload() {
     // 清除时间更新定时器

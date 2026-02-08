@@ -1,7 +1,24 @@
 <!--index.wxml-->
 <!-- 自定义导航栏 -->
 <view class="custom-nav-bar">
-  <text class="nav-title">壁纸小程序</text>
+  <!-- 左侧分享区域 -->
+  <view class="nav-left">
+    <view class="share-btn" bindtap="onShare">
+      <text class="share-icon">📤</text>
+      <text class="share-text">分享</text>
+    </view>
+  </view>
+  
+  <!-- 中间搜索框 -->
+  <view class="nav-center">
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索壁纸</text>
+    </view>
+  </view>
+  
+  <!-- 右侧预留空间（胶囊按钮） -->
+  <view class="nav-right"></view>
 </view>
 
 <!-- 内容区域 -->
