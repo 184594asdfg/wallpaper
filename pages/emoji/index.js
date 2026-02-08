@@ -1,4 +1,4 @@
-// computer.js
+// emoji.js
 const { request } = require('../../config/request');
 const cdn = require('../../utils/cdn');
 
@@ -17,13 +17,21 @@ Page({
       { id: 'weekly', name: '一周排行' },
       { id: 'monthly', name: '人气月榜' }
     ],
-    // 壁纸数据
-    wallpapers: [],
+    // 表情数据
+    emojis: [],
     // 分页相关值
     page: 1,
     limit: 5,
     totalPages: 1,
-    loading: false
+    loading: false,
+    // 预览状态
+    showPreview: false,
+    currentPreviewEmoji: null,
+    // 预览页面导航栏位置
+    previewNavTop: 0,
+    // 时间和日期
+    currentTime: '',
+    currentDate: ''
   },
   
   onLoad() {
@@ -31,7 +39,12 @@ Page({
     this.calculateNavBarPosition(); // 计算导航栏位置和高度
     this.calculateContentPosition(); // 计算内容区域位置
     this.calculateTypeSectionPosition(); // 计算类型区域位置
-    this.loadWallpapers(); // 加载壁纸数据
+    this.loadEmojis(); // 加载表情数据
+    this.updateDateTime(); // 更新时间和日期
+    // 每秒更新一次时间
+    this.timeInterval = setInterval(() => {
+      this.updateDateTime();
+    }, 1000);
     
     // 绑定页面滚动事件
     this.bindPageScroll();
@@ -41,7 +54,7 @@ Page({
   bindPageScroll() {
 
   },
-  
+ 
   
   // 页面滚动到底部事件
   onReachBottom() {
@@ -51,41 +64,39 @@ Page({
     }
     
     // 加载更多数据
-    this.loadWallpapers(true);
+    this.loadEmojis(true);
   },
   
-  // 加载壁纸数据
-  loadWallpapers(isLoadMore = false) {
+  // 加载表情数据
+  loadEmojis(isLoadMore = false) {
     // 防止重复加载
     if (this.data.loading) return;
     
     // 设置加载状态
     this.setData({ loading: true });
     
-    // 调用壁纸接口
+    // 调用表情接口
     request({
-      url: '/wallpaper/desktop',
+      url: '/wallpaper/emoji',
       data: {
         page: isLoadMore ? this.data.page + 1 : 1,
         limit: this.data.limit
       }
     }).then((data) => {
       // 成功获取数据
-      // 处理接口返回的数据结构
       if (data && data.list) {
-        // 为每个壁纸添加完整的图片URL
-        const wallpapersWithImageUrl = data.list.map(item => ({
+        // 为每个表情添加完整的图片URL
+        const emojisWithImageUrl = data.list.map(item => ({
           ...item,
-          id: item.wallpaper_id, // 适配数据结构，将wallpaper_id映射为id
-          // 使用CDN地址和正确的文件夹路径
-          image: cdn.getPcWallpaperUrl(item.filename)
+          id: item.emoji_id,
+          image: cdn.getEmojiUrl(item.filename)
         }));
         
         // 根据是否加载更多来决定是替换还是追加数据
-        const newWallpapers = isLoadMore ? [...this.data.wallpapers, ...wallpapersWithImageUrl] : wallpapersWithImageUrl;
+        const newEmojis = isLoadMore ? [...this.data.emojis, ...emojisWithImageUrl] : emojisWithImageUrl;
         
         this.setData({
-          wallpapers: newWallpapers,
+          emojis: newEmojis,
           page: isLoadMore ? this.data.page + 1 : 1,
           totalPages: data.totalPages || 1,
           loading: false
@@ -93,15 +104,15 @@ Page({
       } else {
         // 接口返回数据异常，设置空数组
         this.setData({ 
-          wallpapers: [],
+          emojis: [],
           loading: false 
         });
       }
     }).catch((err) => {
-      console.error('加载壁纸失败:', err);
+      console.error('加载表情失败:', err);
       // 接口调用失败，设置空数组
       this.setData({ 
-        wallpapers: [],
+        emojis: [],
         loading: false 
       });
     });
@@ -126,7 +137,7 @@ Page({
     // 获取胶囊按钮位置
     const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
     // 计算内容区域顶部距离（导航栏底部距离）
-    const contentTop = menuButtonInfo.bottom; // 导航栏底部再加20px间距
+    const contentTop = menuButtonInfo.bottom;
     // 设置内容区域顶部距离
     this.setData({
       contentTop: contentTop
@@ -162,8 +173,90 @@ Page({
   
   // 返回按钮点击事件
   onBack() {
-    wx.navigateBack({
-      delta: 1
+    // 获取当前页面栈
+    const pages = getCurrentPages();
+    
+    if (pages.length > 1) {
+      // 有上一个页面，正常返回
+      wx.navigateBack({
+        delta: 1
+      });
+    } else {
+      // 没有上一个页面，跳转到首页
+      wx.redirectTo({
+        url: '/pages/home/index'
+      });
+    }
+  },
+  
+  // 更新时间和日期
+  updateDateTime() {
+    const now = new Date();
+    // 格式化时间
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const currentTime = `${hours}:${minutes}`;
+    
+    // 格式化日期（只显示月日）
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const currentDate = `${month}月${day}日`;
+    
+    this.setData({
+      currentTime: currentTime,
+      currentDate: currentDate
     });
+  },
+  
+  // 计算预览页面导航栏位置
+  calculatePreviewNavPosition() {
+    // 获取胶囊按钮位置
+    const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
+    // 设置预览页面导航栏高度、顶部距离
+    this.setData({
+      previewNavHeight: menuButtonInfo.height + 8,
+      previewNavTop: menuButtonInfo.top
+    });
+  },
+  
+  // 预览表情
+  previewEmoji(e) {
+    const emoji = e.currentTarget.dataset.emoji;
+    this.calculatePreviewNavPosition(); // 重新计算预览页面导航栏位置
+    this.setData({
+      showPreview: true,
+      currentPreviewEmoji: emoji
+    });
+  },
+  
+  // 关闭预览
+  onClosePreview() {
+    this.setData({
+      showPreview: false,
+      currentPreviewEmoji: null
+    });
+  },
+  
+  // 下载表情
+  downloadEmoji() {
+    if (this.data.currentPreviewEmoji) {
+      wx.showToast({
+        title: '下载功能开发中',
+        icon: 'none'
+      });
+    }
+  },
+  
+  // 阻止触摸移动
+  preventTouchMove() {
+    // 阻止触摸移动，防止模态框滑动
+  },
+  
+  // 页面卸载时执行
+  onUnload() {
+    // 清除时间更新定时器
+    if (this.timeInterval) {
+      clearInterval(this.timeInterval);
+    }
   }
 })

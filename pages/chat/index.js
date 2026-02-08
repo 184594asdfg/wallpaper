@@ -1,4 +1,4 @@
-// computer.js
+// chat.js
 const { request } = require('../../config/request');
 const cdn = require('../../utils/cdn');
 
@@ -23,7 +23,17 @@ Page({
     page: 1,
     limit: 5,
     totalPages: 1,
-    loading: false
+    loading: false,
+    // 预览状态
+    showPreview: false,
+    currentPreviewWallpaper: null,
+    // 预览页面导航栏位置
+    previewNavTop: 0,
+    // 时间日期高度相关值
+    timeDateHeight: 0,
+    // 时间和日期
+    currentTime: '',
+    currentDate: ''
   },
   
   onLoad() {
@@ -32,6 +42,11 @@ Page({
     this.calculateContentPosition(); // 计算内容区域位置
     this.calculateTypeSectionPosition(); // 计算类型区域位置
     this.loadWallpapers(); // 加载壁纸数据
+    this.updateDateTime(); // 更新时间和日期
+    // 每秒更新一次时间
+    this.timeInterval = setInterval(() => {
+      this.updateDateTime();
+    }, 1000);
     
     // 绑定页面滚动事件
     this.bindPageScroll();
@@ -41,7 +56,7 @@ Page({
   bindPageScroll() {
 
   },
-  
+ 
   
   // 页面滚动到底部事件
   onReachBottom() {
@@ -62,9 +77,9 @@ Page({
     // 设置加载状态
     this.setData({ loading: true });
     
-    // 调用壁纸接口
+    // 调用壁纸接口（使用聊天背景接口）
     request({
-      url: '/wallpaper/desktop',
+      url: '/wallpaper/chat',
       data: {
         page: isLoadMore ? this.data.page + 1 : 1,
         limit: this.data.limit
@@ -78,7 +93,7 @@ Page({
           ...item,
           id: item.wallpaper_id, // 适配数据结构，将wallpaper_id映射为id
           // 使用CDN地址和正确的文件夹路径
-          image: cdn.getPcWallpaperUrl(item.filename)
+          image: cdn.getChatBackgroundUrl(item.filename)
         }));
         
         // 根据是否加载更多来决定是替换还是追加数据
@@ -162,8 +177,94 @@ Page({
   
   // 返回按钮点击事件
   onBack() {
-    wx.navigateBack({
-      delta: 1
+    // 获取当前页面栈
+    const pages = getCurrentPages();
+    
+    if (pages.length > 1) {
+      // 有上一个页面，正常返回
+      wx.navigateBack({
+        delta: 1
+      });
+    } else {
+      // 没有上一个页面，跳转到首页
+      wx.redirectTo({
+        url: '/pages/home/index'
+      });
+    }
+  },
+  
+  // 更新时间和日期
+  updateDateTime() {
+    const now = new Date();
+    // 格式化时间
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const currentTime = `${hours}:${minutes}`;
+    
+    // 格式化日期（只显示月日）
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const currentDate = `${month}月${day}日`;
+    
+    this.setData({
+      currentTime: currentTime,
+      currentDate: currentDate
     });
+  },
+  
+  // 计算预览页面导航栏位置
+  calculatePreviewNavPosition() {
+    // 获取胶囊按钮位置
+    const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
+    // 设置预览页面导航栏高度、顶部距离
+    // 计算时间日期显示位置（导航栏底部加上适当间距）
+    const timeDateHeight = menuButtonInfo.bottom + 0;
+    
+    this.setData({
+      previewNavHeight: menuButtonInfo.height + 8,
+      previewNavTop: menuButtonInfo.top,
+      timeDateHeight: timeDateHeight
+    });
+  },
+  
+  // 预览壁纸
+  previewWallpaper(e) {
+    const wallpaper = e.currentTarget.dataset.wallpaper;
+    this.calculatePreviewNavPosition(); // 重新计算预览页面导航栏位置
+    this.setData({
+      showPreview: true,
+      currentPreviewWallpaper: wallpaper
+    });
+  },
+  
+  // 关闭预览
+  onClosePreview() {
+    this.setData({
+      showPreview: false,
+      currentPreviewWallpaper: null
+    });
+  },
+  
+  // 下载壁纸
+  downloadWallpaper() {
+    if (this.data.currentPreviewWallpaper) {
+      wx.showToast({
+        title: '下载功能开发中',
+        icon: 'none'
+      });
+    }
+  },
+  
+  // 阻止触摸移动
+  preventTouchMove() {
+    // 阻止触摸移动，防止模态框滑动
+  },
+  
+  // 页面卸载时执行
+  onUnload() {
+    // 清除时间更新定时器
+    if (this.timeInterval) {
+      clearInterval(this.timeInterval);
+    }
   }
 })

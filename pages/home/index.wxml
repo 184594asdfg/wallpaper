@@ -50,7 +50,7 @@
     </view>
     <view class="feature-item" bindtap="onFeatureClick" data-type="挂件">
       <view class="feature-avatar" style="background-color: #9b59b6;"></view>
-      <text class="feature-text">头像挂件</text>
+      <text class="feature-text">朋友圈背景</text>
     </view>
   </view>
   
@@ -89,6 +89,17 @@
       <text class="empty-text">暂无壁纸</text>
       <text class="empty-desc">尝试切换分类</text>
     </view>
+    
+    <!-- 加载更多指示器 -->
+    <view class="load-more-container" wx:if="{{loading && wallpapers.length > 0}}">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+    
+    <!-- 没有更多数据提示 -->
+    <view class="no-more-container" wx:if="{{!loading && page >= totalPages && wallpapers.length > 0}}">
+      <text class="no-more-text">已经到底了</text>
+    </view>
   </view>
   
   <!-- 底部导航栏 -->
@@ -108,45 +119,13 @@
   </view>
 </view>
 
-<!-- 壁纸预览模态框 -->
-<view class="wallpaper-preview-modal" wx:if="{{showPreview}}" catchtouchmove="preventTouchMove">
-  <!-- 半透明黑色遮罩层 -->
-  <view class="preview-mask" catchtouchmove="preventTouchMove"></view>
-  
-  <!-- 预览内容区域 -->
-  <view class="preview-content" catchtouchmove="preventTouchMove">
-
-    <!-- 预览界面返回容器 -->
-    <view class="preview-return-navbar" style="top: {{previewNavTop}}px;">
-      <!-- 左边返回按钮 -->
-      <view class="nav-button left-button" catchtap="onClosePreview">
-        <text class="nav-icon">←</text>
-      </view>
-    </view>
-    
-    <!-- 时间和日期显示 -->
-    <view class="preview-time-date" style="top: {{timeDateHeight}}px; height: {{timeDateHeight}}px;">
-      <text class="preview-time">{{currentTime}}</text>
-      <text class="preview-date">{{currentDate}}</text>
-    </view>
-    
-    <!-- 壁纸展示区域 -->
-    <view class="wallpaper-container">
-      <view class="wallpaper-wrapper">
-        <!-- 底部下载按钮 -->
-        <view class="preview-footer">
-          <button class="download-btn" bindtap="downloadWallpaper">
-            <text class="download-icon">⬇️</text>
-            <text class="download-text">立即下载</text>
-          </button>
-        </view>
-        
-        <image 
-          class="wallpaper-image" 
-          src="{{currentPreviewWallpaper.image}}" 
-          mode="aspectFill"
-        ></image>
-      </view>
-    </view>
-  </view>
-</view>
+<!-- 壁纸预览组件 -->
+<wallpaper-preview 
+  showPreview="{{showPreview}}"
+  currentPreviewWallpaper="{{currentPreviewWallpaper}}"
+  previewNavTop="{{previewNavTop}}"
+  currentTime="{{currentTime}}"
+  currentDate="{{currentDate}}"
+  bind:closePreview="onClosePreview"
+  bind:downloadWallpaper="downloadWallpaper"
+></wallpaper-preview>

@@ -1,72 +1,5 @@
-/* computer.wxss */
-/* 自定义导航栏样式 */
-.custom-nav-bar {
-  background: #fff;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 999;
-  padding: 0 16rpx;
-  box-sizing: border-box;
-}
+/* chat.wxss */
 
-/* 导航栏容器 */
-.nav-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #fff;
-  z-index: 998;
-}
-
-/* 导航栏左侧区域 */
-.nav-left {
-  width: 80rpx;
-  display: flex;
-  align-items: center;
-  padding-left: 16rpx;
-  box-sizing: border-box;
-}
-
-/* 返回按钮 */
-.back-btn {
-  display: flex;
-  align-items: center;
-  padding: 8rpx 12rpx;
-  box-sizing: border-box;
-}
-
-.back-icon {
-  font-size: 32rpx;
-  color: #333;
-}
-
-/* 导航栏中间区域 */
-.nav-center {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-title {
-  font-size: 28rpx;
-  font-weight: bold;
-  color: #333;
-}
-
-/* 导航栏右侧区域（预留胶囊按钮空间） */
-.nav-right {
-  width: 80rpx;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
 
 /* 内容区域 - 统一白色背景 */
 .content-section {
@@ -79,8 +12,8 @@
   background: #fff;
 }
 
-/* 电脑壁纸内容 */
-.computer-content {
+/* 聊天背景内容 */
+.chat-content {
   padding: 0 20rpx;
 }
 
@@ -156,8 +89,8 @@
 /* 壁纸网格 */
 .wallpaper-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 24rpx;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
 }
 
 .wallpaper-item {
@@ -170,7 +103,7 @@
 .wallpaper-image {
   width: 100%;
   height: 100%;
-  aspect-ratio: 16/9; /* 16:9 比例 */
+  aspect-ratio: 9/16; /* 9:16 比例 */
   object-fit: cover;
   display: block;
 }
@@ -245,3 +178,4 @@
   font-size: 28rpx;
   color: #999;
 }
+

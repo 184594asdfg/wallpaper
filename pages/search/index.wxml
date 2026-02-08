@@ -4,11 +4,10 @@
 
 <!-- 自定义导航栏 -->
 <view class="custom-nav-bar" style="height: {{navBarHeight}}px; top: {{navBarTop}}px;">
-  <!-- 左侧分享区域 -->
+  <!-- 左侧返回区域 -->
   <view class="nav-left">
-    <view class="share-btn" bindtap="onShare">
-      <text class="share-icon">📤</text>
-      <text class="share-text">分享</text>
+    <view class="back-btn" bindtap="onBack">
+      <text class="back-icon">←</text>
     </view>
   </view>
   
@@ -33,17 +32,17 @@
       <view class="section-title">推荐壁纸</view>
       <!-- 图片展示区域 -->
       <view class="images-row">
-        <view class="image-card" bindtap="onImageClick" data-type="computer">
+        <view class="image-card" bindtap="onImageClick" data-url="/pages/computer/index">
           <view class="image-placeholder" style="background-color: #3498db;">
             <text class="image-text">电脑壁纸</text>
           </view>
         </view>
-        <view class="image-card" bindtap="onImageClick" data-type="moments">
+        <view class="image-card" bindtap="onImageClick" data-url="/pages/moments/index">
           <view class="image-placeholder" style="background-color: #2ecc71;">
             <text class="image-text">朋友圈背景</text>
           </view>
         </view>
-        <view class="image-card" bindtap="onImageClick" data-type="chat">
+        <view class="image-card" bindtap="onImageClick" data-url="/pages/chat/index">
           <view class="image-placeholder" style="background-color: #f39c12;">
             <text class="image-text">聊天背景</text>
           </view>

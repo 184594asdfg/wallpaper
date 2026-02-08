@@ -1,29 +1,22 @@
-<!--computer.wxml-->
-<!-- 导航栏容器 -->
-<view class="nav-container"></view>
+<!--chat.wxml-->
+<!-- 通用导航栏组件 -->
+<common-navbar title="聊天背景" bind:back="onBack"></common-navbar>
 
-<!-- 自定义导航栏 -->
-<view class="custom-nav-bar" style="height: {{navBarHeight}}px; top: {{navBarTop}}px;">
-  <!-- 左侧返回区域 -->
-  <view class="nav-left">
-    <view class="back-btn" bindtap="onBack">
-      <text class="back-icon">←</text>
-    </view>
-  </view>
-  
-  <!-- 中间标题 -->
-  <view class="nav-center">
-    <view class="nav-title">电脑壁纸</view>
-  </view>
-  
-  <!-- 右侧预留空间（胶囊按钮） -->
-  <view class="nav-right"></view>
-</view>
+<!-- 壁纸预览组件 -->
+<wallpaper-preview 
+  showPreview="{{showPreview}}"
+  currentPreviewWallpaper="{{currentPreviewWallpaper}}"
+  previewNavTop="{{previewNavTop}}"
+  currentTime="{{currentTime}}"
+  currentDate="{{currentDate}}"
+  bind:closePreview="onClosePreview"
+  bind:downloadWallpaper="downloadWallpaper"
+></wallpaper-preview>
 
 <!-- 内容区域 -->
 <view class="content-section" style="padding-top: {{contentTop ? contentTop + 'px' : '40px'}};">
-  <!-- 电脑壁纸内容 -->
-  <view class="computer-content">
+  <!-- 聊天背景内容 -->
+  <view class="chat-content">
     <!-- 类型选择 -->
     <view class="type-section" style="top: {{typeSectionTop}}px;">
       <view class="type-tabs">
@@ -47,7 +40,7 @@
           wx:for="{{wallpapers}}" 
           wx:key="id"
         >
-          <image class="wallpaper-image" src="{{item.image}}" mode="aspectFill"></image>
+          <image class="wallpaper-image" src="{{item.image}}" mode="aspectFill" bindtap="previewWallpaper" data-wallpaper="{{item}}"></image>
         </view>
         
         <!-- 空状态 -->

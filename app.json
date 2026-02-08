@@ -2,7 +2,10 @@
   "pages": [
     "pages/home/index",
     "pages/search/index",
-    "pages/computer/index"
+    "pages/computer/index",
+    "pages/chat/index",
+    "pages/avatar/index",
+    "pages/emoji/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

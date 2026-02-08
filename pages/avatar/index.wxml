@@ -1,0 +1,66 @@
+<!--avatar.wxml-->
+<!-- 通用导航栏组件 -->
+<common-navbar title="头像" bind:back="onBack"></common-navbar>
+
+<!-- 内容区域 -->
+<view class="content-section" style="padding-top: {{contentTop ? contentTop + 'px' : '40px'}};">
+  <!-- 头像内容 -->
+  <view class="avatar-content">
+    <!-- 类型选择 -->
+    <view class="type-section" style="top: {{typeSectionTop}}px;">
+      <view class="type-tabs">
+        <view 
+          wx:for="{{types}}" 
+          wx:key="id"
+          class="category-tab {{currentType === item.id ? 'active' : ''}}"
+          bindtap="onTypeClick"
+          data-type="{{item.id}}"
+        >
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+    
+    <!-- 头像展示 -->
+    <view class="avatar-section">
+      <view class="avatar-grid">
+        <view 
+          class="avatar-item" 
+          wx:for="{{avatars}}" 
+          wx:key="id"
+        >
+          <image class="avatar-image" src="{{item.image}}" mode="aspectFill" bindtap="previewAvatar" data-avatar="{{item}}"></image>
+        </view>
+        
+        <!-- 空状态 -->
+        <view class="empty-state" wx:if="{{avatars.length === 0}}">
+          <text class="empty-icon">🖼️</text>
+          <text class="empty-text">暂无头像</text>
+          <text class="empty-desc">请稍后重试</text>
+        </view>
+        
+        <!-- 加载更多指示器 -->
+        <view class="load-more-container" wx:if="{{loading && avatars.length > 0}}">
+          <view class="loading-spinner"></view>
+          <text class="loading-text">加载中...</text>
+        </view>
+        
+        <!-- 没有更多数据提示 -->
+        <view class="no-more-container" wx:if="{{!loading && page >= totalPages && avatars.length > 0}}">
+          <text class="no-more-text">已经到底了</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 头像预览组件 -->
+<wallpaper-preview 
+  showPreview="{{showPreview}}"
+  currentPreviewWallpaper="{{currentPreviewAvatar}}"
+  previewNavTop="{{previewNavTop}}"
+  currentTime="{{currentTime}}"
+  currentDate="{{currentDate}}"
+  bind:closePreview="onClosePreview"
+  bind:downloadWallpaper="downloadAvatar"
+></wallpaper-preview>

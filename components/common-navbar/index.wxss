@@ -1,0 +1,70 @@
+/* components/common-navbar/index.wxss */
+/* 自定义导航栏样式 */
+.custom-nav-bar {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 999;
+  padding: 0 16rpx;
+  box-sizing: border-box;
+}
+
+/* 导航栏容器 */
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: transparent;
+  z-index: 998;
+  pointer-events: none;
+}
+
+/* 导航栏左侧区域 */
+.nav-left {
+  width: 80rpx;
+  display: flex;
+  align-items: center;
+  padding-left: 16rpx;
+  box-sizing: border-box;
+}
+
+/* 返回按钮 */
+.back-btn {
+  display: flex;
+  align-items: center;
+  padding: 8rpx 12rpx;
+  box-sizing: border-box;
+}
+
+.back-icon {
+  font-size: 32rpx;
+  color: #333;
+}
+
+/* 导航栏中间区域 */
+.nav-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 导航栏右侧区域（预留胶囊按钮空间） */
+.nav-right {
+  width: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

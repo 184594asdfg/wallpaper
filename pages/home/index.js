@@ -1,5 +1,6 @@
-// index.js
+// home.js
 const { request } = require('../../config/request');
+const cdn = require('../../utils/cdn');
 
 Page({
   data: {
@@ -35,7 +36,7 @@ Page({
     currentDate: '',
     // 分页相关值
     page: 1,
-    limit: 10,
+    limit: 9,
     totalPages: 1,
     loading: false
   },
@@ -52,8 +53,8 @@ Page({
       this.updateDateTime();
     }, 1000);
     
-    // 测试页面跳转
-    console.log('测试页面跳转');
+    // 绑定页面滚动事件
+    this.bindPageScroll();
   },
   
   // 计算导航栏位置和高度
@@ -101,11 +102,27 @@ Page({
   calculatePreviewNavPosition() {
     // 获取胶囊按钮位置
     const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
-    // 设置预览页面导航栏顶部距离和时间日期高度相关值
+    // 设置预览页面导航栏高度、顶部距离
     this.setData({
-      previewNavTop: menuButtonInfo.height + 15,
-      timeDateHeight: menuButtonInfo.height + 50
+      previewNavHeight: menuButtonInfo.height + 8,
+      previewNavTop: menuButtonInfo.top
     });
+  },
+  
+  // 绑定页面滚动事件
+  bindPageScroll() {
+
+  },
+  
+  // 页面滚动到底部事件
+  onReachBottom() {
+    // 防止重复触发
+    if (this.data.loading || this.data.page >= this.data.totalPages) {
+      return;
+    }
+    
+    // 加载更多数据
+    this.loadWallpapers(this.data.currentCategory, true);
   },
   
   // 计算分类区域位置
@@ -133,8 +150,7 @@ Page({
       data: {
         page: isLoadMore ? this.data.page + 1 : 1,
         limit: this.data.limit
-      },
-      loadingText: isLoadMore ? '加载更多...' : '加载壁纸中...'
+      }
     }).then((data) => {
       // 成功获取数据
       // 处理接口返回的数据结构
@@ -142,8 +158,8 @@ Page({
         // 为每个壁纸添加完整的图片URL
         const wallpapersWithImageUrl = data.list.map(item => ({
           ...item,
-          // 使用CDN地址和正确的文件夹路径
-          image: `https://cdn2.pastecuts.cn/wallpaper/${item.filename}`
+          id: item.wallpaper_id,
+          image: cdn.getPhoneWallpaperUrl(item.filename)
         }));
         
         // 根据是否加载更多来决定是替换还是追加数据
@@ -156,34 +172,19 @@ Page({
           loading: false
         });
       } else {
-        // 使用默认数据作为 fallback
-        this.setDefaultWallpapers(category);
-        this.setData({ loading: false });
+        // 接口返回数据异常，设置空数组
+        this.setData({ 
+          wallpapers: [],
+          loading: false 
+        });
       }
     }).catch((err) => {
       console.error('加载壁纸失败:', err);
-      // 使用默认数据作为 fallback
-      this.setDefaultWallpapers(category);
-      this.setData({ loading: false });
-    });
-  },
-  
-  // 设置默认壁纸数据（当接口调用失败时使用）
-  setDefaultWallpapers(category) {
-    const mockWallpapers = category === 0 ? [
-      { id: 1, image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20abstract%20phone%20wallpaper%20with%20geometric%20patterns&image_size=portrait_16_9' },
-      { id: 2, image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=minimalist%20nature%20phone%20wallpaper%20with%20mountains&image_size=portrait_16_9' },
-      { id: 3, image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=dark%20blue%20gradient%20phone%20wallpaper&image_size=portrait_16_9' },
-      { id: 4, image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=colorful%20neon%20phone%20wallpaper&image_size=portrait_16_9' }
-    ] : [
-      { id: 5, image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=ultrawide%20landscape%20computer%20wallpaper%20with%20ocean&image_size=landscape_16_9' },
-      { id: 6, image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cyberpunk%20city%20computer%20wallpaper&image_size=landscape_16_9' },
-      { id: 7, image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=minimalist%20white%20computer%20wallpaper&image_size=landscape_16_9' },
-      { id: 8, image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=galaxy%20space%20computer%20wallpaper&image_size=landscape_16_9' }
-    ];
-    
-    this.setData({
-      wallpapers: mockWallpapers
+      // 接口调用失败，设置空数组
+      this.setData({ 
+        wallpapers: [],
+        loading: false 
+      });
     });
   },
   
@@ -285,10 +286,60 @@ Page({
   // 功能区域点击事件
   onFeatureClick(e) {
     const type = e.currentTarget.dataset.type;
-    wx.showToast({
-      title: `点击了${type}`,
-      icon: 'none'
-    });
+    
+    // 根据功能类型进行不同的跳转
+    if (type === 'chat') {
+      // 跳转到聊天背景页面
+      wx.navigateTo({
+        url: '/pages/chat/index',
+        success: function(res) {
+          console.log('跳转到聊天背景页面成功:', res);
+        },
+        fail: function(err) {
+          console.log('跳转到聊天背景页面失败:', err);
+          wx.showToast({
+            title: '跳转失败',
+            icon: 'none'
+          });
+        }
+      });
+    } else if (type === 'avatar') {
+      // 跳转到头像页面
+      wx.navigateTo({
+        url: '/pages/avatar/index',
+        success: function(res) {
+          console.log('跳转到头像页面成功:', res);
+        },
+        fail: function(err) {
+          console.log('跳转到头像页面失败:', err);
+          wx.showToast({
+            title: '跳转失败',
+            icon: 'none'
+          });
+        }
+      });
+    } else if (type === 'emoji') {
+      // 跳转到表情页面
+      wx.navigateTo({
+        url: '/pages/emoji/index',
+        success: function(res) {
+          console.log('跳转到表情页面成功:', res);
+        },
+        fail: function(err) {
+          console.log('跳转到表情页面失败:', err);
+          wx.showToast({
+            title: '跳转失败',
+            icon: 'none'
+          });
+        }
+      });
+    } else {
+      // 其他功能暂时显示提示
+      wx.showToast({
+        title: `点击了${type}`,
+        icon: 'none'
+      });
+    }
   },
   
   // 页面卸载时执行

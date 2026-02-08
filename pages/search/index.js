@@ -47,11 +47,13 @@ Page({
     });
   },
   
-  // 分享功能
-  onShare() {
-    wx.showShareMenu({
-      withShareTicket: true,
-      menus: ['shareAppMessage', 'shareTimeline']
+  // 返回功能
+  onBack() {
+    console.log('返回按钮被点击');
+    
+    // 直接跳转到首页
+    wx.navigateTo({
+      url: '/pages/home/index'
     });
   },
   
@@ -66,33 +68,23 @@ Page({
   
   // 图片点击事件
   onImageClick(e) {
-    const type = e.currentTarget.dataset.type;
-    console.log('点击了图片类型:', type);
+    const url = e.currentTarget.dataset.url;
+    console.log('点击了图片，跳转路径:', url);
     
-    // 根据图片类型跳转到不同页面
-    if (type === 'computer') {
-      // 跳转到电脑壁纸页面
-      wx.navigateTo({
-        url: '/pages/computer/index',
-        success: function(res) {
-          console.log('跳转成功:', res);
-        },
-        fail: function(err) {
-          console.log('跳转失败:', err);
-        }
-      });
-    } else if (type === 'moments') {
-      // 跳转到朋友圈背景页面
-      wx.showToast({
-        title: '朋友圈背景功能开发中',
-        icon: 'none'
-      });
-    } else if (type === 'chat') {
-      // 跳转到聊天背景页面
-      wx.showToast({
-        title: '聊天背景功能开发中',
-        icon: 'none'
-      });
-    }
+    // 直接使用传入的路径进行跳转
+    wx.navigateTo({
+      url: url,
+      success: function(res) {
+        console.log('跳转成功:', res);
+      },
+      fail: function(err) {
+        console.log('跳转失败:', err);
+        // 跳转失败时显示提示
+        wx.showToast({
+          title: '页面暂未开放',
+          icon: 'none'
+        });
+      }
+    });
   }
 })

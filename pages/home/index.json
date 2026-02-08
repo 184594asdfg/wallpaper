@@ -1,3 +1,5 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "wallpaper-preview": "/components/wallpaper-preview/index"
+  }
 }

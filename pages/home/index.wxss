@@ -214,6 +214,48 @@
   opacity: 0.7;
 }
 
+/* 加载更多指示器 */
+.load-more-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx 0;
+  clear: both;
+}
+
+.loading-spinner {
+  width: 40rpx;
+  height: 40rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #007AFF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 没有更多数据提示 */
+.no-more-container {
+  text-align: center;
+  padding: 40rpx 0;
+  clear: both;
+}
+
+.no-more-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
 /* 壁纸网格 - 紧凑间距布局 */
 .covers-section {
   background: transparent;
@@ -354,196 +396,3 @@
   padding-top: 10px;
 }
 
-/* 壁纸预览模态框 */
-.wallpaper-preview-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10000;
-}
-
-.preview-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1;
-}
-
-.preview-content {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
-  background: #000000;
-  padding: 0;
-  margin: 0;
-}
-
-
-/* 预览界面返回容器 */
-.preview-return-navbar {
-  position: absolute;
-  top: 20rpx;
-  left: 10rpx;
-  width: 158rpx;
-  height: 64rpx;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  z-index: 10001;
-  background: transparent;
-  border: none;
-  gap: 14rpx;
-  padding-left: 10rpx;
-}
-
-/* 导航栏按钮通用样式 */
-.nav-button {
-  width: 56rpx;
-  height: 56rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  min-width: 56rpx;
-  min-height: 56rpx;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10rpx);
-  border-radius: 28rpx;
-  border: 0.5rpx solid rgba(255, 255, 255, 0.23);
-}
-
-.nav-button:active {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8rpx;
-}
-
-/* 导航栏图标样式 */
-.nav-icon {
-  width: 40rpx;
-  height: 40rpx;
-  color: #fff;
-  font-size: 32rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 时间和日期显示 */
-.preview-time-date {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10001;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16rpx;
-  background: transparent;
-}
-
-.preview-time {
-  font-size: 100rpx;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.3);
-  letter-spacing: 2rpx;
-}
-
-.preview-date {
-  font-size: 40rpx;
-  color: rgba(255, 255, 255, 0.85);
-  text-shadow: 0 1rpx 5rpx rgba(0, 0, 0, 0.2);
-  font-weight: 500;
-}
-
-/* 壁纸展示区域 */
-.wallpaper-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-/* 壁纸包装器 */
-.wallpaper-wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  background: #000000;
-  overflow: hidden;
-}
-
-.wallpaper-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0rpx;
-  display: block;
-}
-
-/* 底部下载按钮 */
-.preview-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20rpx 30rpx 40rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: rgba(255, 255, 255, 0.9);
-  z-index: 10;
-}
-
-.download-btn {
-  width: 50%;
-  height: 96rpx;
-  background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
-  border: none;
-  border-radius: 48rpx;
-  color: #ffffff;
-  font-size: 34rpx;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12rpx;
-  box-shadow: 0 12rpx 32rpx rgba(0, 122, 255, 0.4);
-  transition: all 0.3s ease;
-  min-height: 96rpx;
-}
-
-.download-btn:active {
-  transform: translateY(2rpx);
-  box-shadow: 0 6rpx 16rpx rgba(0, 122, 255, 0.6);
-  background: linear-gradient(135deg, #0056CC 0%, #003D99 100%);
-}
-
-.download-icon {
-  font-size: 32rpx;
-}
-
-.download-text {
-  font-size: 32rpx;
-  font-weight: 600;
-}

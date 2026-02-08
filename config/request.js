@@ -24,8 +24,7 @@ const request = (options) => {
       'Content-Type': 'application/json'
     },
     timeout: 10000,
-    showLoading: true,
-    loadingText: '加载中...'
+    showLoading: false
   };
   
   // 合并配置
