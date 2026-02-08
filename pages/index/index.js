@@ -218,6 +218,15 @@ Page({
     });
   },
   
+  // 功能区域点击事件
+  onFeatureClick(e) {
+    const type = e.currentTarget.dataset.type;
+    wx.showToast({
+      title: `点击了${type}`,
+      icon: 'none'
+    });
+  },
+  
   // 页面卸载时执行
   onUnload() {
     // 清除时间更新定时器
