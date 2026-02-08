@@ -1,0 +1,62 @@
+<!--computer.wxml-->
+<!-- 导航栏容器 -->
+<view class="nav-container"></view>
+
+<!-- 自定义导航栏 -->
+<view class="custom-nav-bar" style="height: {{navBarHeight}}px; top: {{navBarTop}}px;">
+  <!-- 左侧返回区域 -->
+  <view class="nav-left">
+    <view class="back-btn" bindtap="onBack">
+      <text class="back-icon">←</text>
+    </view>
+  </view>
+  
+  <!-- 中间标题 -->
+  <view class="nav-center">
+    <view class="nav-title">电脑壁纸</view>
+  </view>
+  
+  <!-- 右侧预留空间（胶囊按钮） -->
+  <view class="nav-right"></view>
+</view>
+
+<!-- 内容区域 -->
+<view class="content-section" style="padding-top: {{contentTop ? contentTop + 'px' : '40px'}};">
+  <!-- 电脑壁纸内容 -->
+  <view class="computer-content">
+    <!-- 类型选择 -->
+    <view class="type-section">
+      <view class="type-tabs">
+        <view 
+          wx:for="{{types}}" 
+          wx:key="id"
+          class="category-tab {{currentType === item.id ? 'active' : ''}}"
+          bindtap="onTypeClick"
+          data-type="{{item.id}}"
+        >
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+    
+    <!-- 壁纸展示 -->
+    <view class="wallpaper-section">
+      <view class="wallpaper-grid">
+        <view 
+          class="wallpaper-item" 
+          wx:for="{{wallpapers}}" 
+          wx:key="id"
+        >
+          <image class="wallpaper-image" src="{{item.image}}" mode="aspectFill"></image>
+        </view>
+        
+        <!-- 空状态 -->
+        <view class="empty-state" wx:if="{{wallpapers.length === 0}}">
+          <text class="empty-icon">🖼️</text>
+          <text class="empty-text">暂无壁纸</text>
+          <text class="empty-desc">请稍后重试</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

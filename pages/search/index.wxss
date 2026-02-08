@@ -1,0 +1,181 @@
+/* search.wxss */
+/* 自定义导航栏样式 */
+.custom-nav-bar {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 999;
+  padding: 0 16rpx;
+  box-sizing: border-box;
+}
+
+/* 导航栏容器 */
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #fff;
+  z-index: 998;
+}
+
+/* 导航栏左侧区域 */
+.nav-left {
+  width: 80rpx;
+  display: flex;
+  align-items: center;
+  padding-left: 16rpx;
+  box-sizing: border-box;
+}
+
+/* 分享按钮 */
+.share-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rpx 0;
+  cursor: pointer;
+}
+
+.share-icon {
+  font-size: 24rpx;
+  margin-bottom: 2rpx;
+}
+
+.share-text {
+  font-size: 16rpx;
+  color: #333;
+  font-weight: 400;
+}
+
+/* 导航栏中间区域 */
+.nav-center {
+  display: flex;
+  align-items: center;
+}
+
+/* 搜索框 */
+.search-box {
+  height: 32px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 16rpx;
+  box-sizing: border-box;
+}
+
+.search-placeholder {
+  font-size: 24rpx;
+  color: #999;
+  flex: 1;
+}
+
+/* 导航栏右侧区域（预留胶囊按钮空间） */
+.nav-right {
+  width: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* 内容区域 - 统一白色背景 */
+.content-section {
+  border-radius: 0rpx;
+  margin: 0rpx;
+  padding: 0rpx;
+  box-shadow: none;
+  min-height: calc(100vh - 44px);
+  padding-top: 20px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+/* 搜索结果区域 */
+.search-results {
+  padding: 20rpx 0;
+  text-align: center;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+  background: transparent;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  color: #ccc;
+}
+
+.empty-text {
+  display: block;
+  font-size: 32rpx;
+  margin-bottom: 10rpx;
+  color: #333;
+}
+
+.empty-desc {
+  display: block;
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 新增区域 */
+.new-section {
+  margin: 40rpx 0;
+  padding: 0 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  color: #333;
+  text-align: left;
+}
+
+/* 图片展示区域 */
+.images-row {
+  display: flex;
+  gap: 16rpx;
+}
+
+.image-card {
+  flex: 1;
+}
+
+.image-placeholder {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 比例 */
+  border-radius: 12rpx;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-text {
+  position: absolute;
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  padding: 0 10rpx;
+  box-sizing: border-box;
+}

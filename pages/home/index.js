@@ -26,11 +26,18 @@ Page({
     // 导航栏相关值
     navBarHeight: 0,
     navBarTop: 0,
+    // 分类区域相关值
+    categoryStickyTop: 0,
     // 搜索框相关值
     searchBoxWidth: 0,
     // 时间和日期
     currentTime: '',
-    currentDate: ''
+    currentDate: '',
+    // 分页相关值
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    loading: false
   },
   
   onLoad() {
@@ -44,6 +51,9 @@ Page({
     this.timeInterval = setInterval(() => {
       this.updateDateTime();
     }, 1000);
+    
+    // 测试页面跳转
+    console.log('测试页面跳转');
   },
   
   // 计算导航栏位置和高度
@@ -56,12 +66,15 @@ Page({
     const leftAreaWidth = 80; // 左侧分享区域宽度
     const rightAreaWidth = menuButtonInfo.right - menuButtonInfo.left + 20; // 右侧胶囊按钮区域宽度（包含边距）
     const searchBoxWidth = screenWidth - leftAreaWidth - rightAreaWidth + 35; // 40为额外边距
+    // 计算分类区域粘性定位高度（导航栏高度 + 导航栏顶部距离）
+    const categoryStickyTop = (menuButtonInfo.height) + menuButtonInfo.top;
     
-    // 设置导航栏高度、顶部距离和搜索框宽度
+    // 设置导航栏高度、顶部距离、搜索框宽度和分类区域粘性定位高度
     this.setData({
       navBarHeight: menuButtonInfo.height + 8,
       navBarTop: menuButtonInfo.top,
-      searchBoxWidth: searchBoxWidth - 8
+      searchBoxWidth: searchBoxWidth - 8,
+      categoryStickyTop: categoryStickyTop
     });
   },
   
@@ -100,21 +113,28 @@ Page({
     // 获取胶囊按钮位置
     const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
     // 计算分类区域顶部距离
-    const categoryTop = menuButtonInfo.bottom - 35; // 胶囊按钮底部再加20px间距
+    const categoryTop = menuButtonInfo.bottom+10; // 胶囊按钮底部再加20px间距
     this.setData({
       categoryTop: categoryTop
     });
   },
   
   // 加载壁纸数据
-  loadWallpapers(category) {
+  loadWallpapers(category, isLoadMore = false) {
+    // 防止重复加载
+    if (this.data.loading) return;
+    
+    // 设置加载状态
+    this.setData({ loading: true });
+    
     // 调用壁纸接口
     request({
-      url: '/wallpaper',
+      url: '/wallpaper/mobile',
       data: {
-        type: category
+        page: isLoadMore ? this.data.page + 1 : 1,
+        limit: this.data.limit
       },
-      loadingText: '加载壁纸中...'
+      loadingText: isLoadMore ? '加载更多...' : '加载壁纸中...'
     }).then((data) => {
       // 成功获取数据
       // 处理接口返回的数据结构
@@ -126,17 +146,25 @@ Page({
           image: `https://cdn2.pastecuts.cn/wallpaper/${item.filename}`
         }));
         
+        // 根据是否加载更多来决定是替换还是追加数据
+        const newWallpapers = isLoadMore ? [...this.data.wallpapers, ...wallpapersWithImageUrl] : wallpapersWithImageUrl;
+        
         this.setData({
-          wallpapers: wallpapersWithImageUrl
+          wallpapers: newWallpapers,
+          page: isLoadMore ? this.data.page + 1 : 1,
+          totalPages: data.totalPages || 1,
+          loading: false
         });
       } else {
         // 使用默认数据作为 fallback
         this.setDefaultWallpapers(category);
+        this.setData({ loading: false });
       }
     }).catch((err) => {
       console.error('加载壁纸失败:', err);
       // 使用默认数据作为 fallback
       this.setDefaultWallpapers(category);
+      this.setData({ loading: false });
     });
   },
   
@@ -195,6 +223,27 @@ Page({
     });
   },
   
+  // 底部导航栏切换
+  onNavChange(e) {
+    const index = parseInt(e.currentTarget.dataset.index);
+    // 导航切换逻辑
+    if (index === 1) {
+      // 跳转到搜索页面
+      console.log('准备跳转到搜索页面');
+      wx.redirectTo({
+        url: '/pages/search/index',
+        success: function(res) {
+          console.log('导航跳转成功:', res);
+        },
+        fail: function(err) {
+          console.log('导航跳转失败:', err);
+        }
+      });
+    } else if (index === 0) {
+      // 已经在首页，不需要跳转
+    }
+  },
+  
   // 下载壁纸
   downloadWallpaper() {
     if (this.data.currentPreviewWallpaper) {
@@ -215,6 +264,21 @@ Page({
     wx.showShareMenu({
       withShareTicket: true,
       menus: ['shareAppMessage', 'shareTimeline']
+    });
+  },
+  
+  // 搜索框点击事件
+  onSearchClick() {
+    console.log('搜索框被点击');
+    // 跳转到搜索页面
+    wx.redirectTo({
+      url: '/pages/search/index',
+      success: function(res) {
+        console.log('跳转成功:', res);
+      },
+      fail: function(err) {
+        console.log('跳转失败:', err);
+      }
     });
   },
   

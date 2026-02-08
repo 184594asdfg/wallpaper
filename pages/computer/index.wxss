@@ -1,0 +1,204 @@
+/* computer.wxss */
+/* 自定义导航栏样式 */
+.custom-nav-bar {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 999;
+  padding: 0 16rpx;
+  box-sizing: border-box;
+}
+
+/* 导航栏容器 */
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #fff;
+  z-index: 998;
+}
+
+/* 导航栏左侧区域 */
+.nav-left {
+  width: 80rpx;
+  display: flex;
+  align-items: center;
+  padding-left: 16rpx;
+  box-sizing: border-box;
+}
+
+/* 返回按钮 */
+.back-btn {
+  display: flex;
+  align-items: center;
+  padding: 8rpx 12rpx;
+  box-sizing: border-box;
+}
+
+.back-icon {
+  font-size: 32rpx;
+  color: #333;
+}
+
+/* 导航栏中间区域 */
+.nav-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 导航栏右侧区域（预留胶囊按钮空间） */
+.nav-right {
+  width: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* 内容区域 - 统一白色背景 */
+.content-section {
+  border-radius: 0rpx;
+  margin: 0rpx;
+  padding: 0rpx;
+  box-shadow: none;
+  min-height: calc(100vh - 44px);
+  box-sizing: border-box;
+  background: #fff;
+}
+
+/* 电脑壁纸内容 */
+.computer-content {
+  padding: 0 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  color: #333;
+  text-align: left;
+}
+
+/* 类型选择 */
+.type-section {
+  background: #fff;
+  border-radius: 0rpx;
+  padding: 16rpx;
+  margin-bottom: 24rpx;
+  position: sticky;
+  top: 60rpx;
+  z-index: 997;
+}
+
+.type-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-tab {
+  padding: 16rpx 28rpx;
+  background: transparent;
+  border-radius: 0rpx;
+  font-size: 28rpx;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  white-space: nowrap;
+  text-align: center;
+  min-width: 100rpx;
+  position: relative;
+}
+
+.category-tab.active {
+  color: #2274cdff;
+  font-weight: 500;
+}
+
+.category-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background: #007AFF;
+  border-radius: 0;
+}
+
+.category-tab:active {
+  opacity: 0.7;
+}
+
+/* 壁纸展示 */
+.wallpaper-section {
+  margin-bottom: 40rpx;
+}
+
+/* 壁纸网格 */
+.wallpaper-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24rpx;
+}
+
+.wallpaper-item {
+  width: 100%;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.wallpaper-image {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16/9; /* 16:9 比例 */
+  object-fit: cover;
+  display: block;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+  background: transparent;
+  grid-column: 1 / -1;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.empty-text {
+  display: block;
+  font-size: 32rpx;
+  margin-bottom: 10rpx;
+  color: #666;
+}
+
+.empty-desc {
+  display: block;
+  font-size: 28rpx;
+  color: #999;
+}

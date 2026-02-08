@@ -1,4 +1,7 @@
 <!--index.wxml-->
+<!-- 导航栏容器 -->
+<view class="nav-container"></view>
+
 <!-- 自定义导航栏 -->
 <view class="custom-nav-bar" style="height: {{navBarHeight}}px; top: {{navBarTop}}px;">
   <!-- 左侧分享区域 -->
@@ -11,7 +14,7 @@
   
   <!-- 中间搜索框 -->
     <view class="nav-center">
-      <view class="search-box" style="width: {{searchBoxWidth}}px;">
+      <view class="search-box" style="width: {{searchBoxWidth}}px;" bindtap="onSearchClick">
         <text class="search-placeholder">搜索壁纸</text>
       </view>
     </view>
@@ -23,7 +26,7 @@
 <!-- 内容区域 -->
 <view class="content-section">
   <!-- 轮播图区域 -->
-  <view class="carousel-section" style="margin-top: {{categoryTop ? categoryTop + 'px' : '40rpx'}}">
+  <view class="carousel-section" style="margin-top: {{categoryTop ? categoryTop + 'px' : '80rpx'}}">
     <swiper class="carousel-swiper" indicator-dots circular autoplay interval="3000">
       <swiper-item wx:for="{{carouselList}}" wx:key="id">
         <view class="carousel-item" style="background-color: {{item.bgColor}}"></view>
@@ -52,7 +55,7 @@
   </view>
   
   <!-- 分类区域 - 极简标签式导航设计 -->
-  <view class="category-section">
+  <view class="category-section" style="top: {{categoryStickyTop}}px;">
     <view class="category-tabs">
       <view 
         wx:for="{{categories}}" 
@@ -85,6 +88,22 @@
       <text class="empty-icon">🖼️</text>
       <text class="empty-text">暂无壁纸</text>
       <text class="empty-desc">尝试切换分类</text>
+    </view>
+  </view>
+  
+  <!-- 底部导航栏 -->
+  <view class="bottom-nav">
+    <view class="nav-item active" bindtap="onNavChange" data-index="0">
+      <text class="nav-icon">🏠</text>
+      <text class="nav-text">精选</text>
+    </view>
+    <view class="nav-item" bindtap="onNavChange" data-index="1">
+      <text class="nav-icon">🔍</text>
+      <text class="nav-text">搜索</text>
+    </view>
+    <view class="nav-item" bindtap="onNavChange" data-index="2">
+      <text class="nav-icon">👤</text>
+      <text class="nav-text">我的</text>
     </view>
   </view>
 </view>
