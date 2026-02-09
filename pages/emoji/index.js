@@ -12,16 +12,15 @@ Page({
     // 类型相关值
     currentType: 'latest',
     types: [
-      { id: 'latest', name: '最新上传' },
-      { id: 'daily', name: '一天最热' },
-      { id: 'weekly', name: '一周排行' },
-      { id: 'monthly', name: '人气月榜' }
+      { id: 0, name: '精选', value: '0' , active: true},
+      { id: 1, name: '最新', value: '1' , active: false},
+      { id: 2, name: '下载最多', value: '2' , active: false}
     ],
     // 表情数据
     emojis: [],
     // 分页相关值
     page: 1,
-    limit: 5,
+    limit: 15,
     totalPages: 1,
     loading: false,
     // 预览状态
@@ -68,20 +67,28 @@ Page({
   },
   
   // 加载表情数据
-  loadEmojis(isLoadMore = false) {
+  loadEmojis(isLoadMore = false, type = null) {
     // 防止重复加载
     if (this.data.loading) return;
     
     // 设置加载状态
     this.setData({ loading: true });
     
+    // 构建请求参数
+    const requestData = {
+      page: isLoadMore ? this.data.page + 1 : 1,
+      limit: this.data.limit
+    };
+    
+    // 如果传入了type参数，添加到请求数据中
+    if (type !== null) {
+      requestData.type = type;
+    }
+    
     // 调用表情接口
     request({
       url: '/wallpaper/emoji',
-      data: {
-        page: isLoadMore ? this.data.page + 1 : 1,
-        limit: this.data.limit
-      }
+      data: requestData
     }).then((data) => {
       // 成功获取数据
       if (data && data.list) {
@@ -162,13 +169,30 @@ Page({
     const type = e.currentTarget.dataset.type;
     console.log('点击了类型:', type);
     
-    // 更新当前选中的类型
+    // 获取对应的value值
+    const selectedType = this.data.types.find(item => item.id === type);
+    if (!selectedType) return;
+    
+    // 更新types数组中的active状态
+    const updatedTypes = this.data.types.map(item => ({
+      ...item,
+      active: item.id === type
+    }));
+    
+    // 更新当前选中的类型和types数组
     this.setData({
-      currentType: type
+      currentType: type,
+      types: updatedTypes
     });
     
-    // 这里可以根据类型加载不同的数据
-    // 目前只实现选中状态的切换
+    // 重置分页数据并重新加载表情数据
+    this.setData({
+      page: 1,
+      emojis: []
+    });
+    
+    // 重新调用接口，传入type参数
+    this.loadEmojis(false, selectedType.value);
   },
   
   // 返回按钮点击事件
@@ -238,11 +262,52 @@ Page({
   },
   
   // 下载表情
-  downloadEmoji() {
-    if (this.data.currentPreviewEmoji) {
-      wx.showToast({
-        title: '下载功能开发中',
-        icon: 'none'
+  downloadEmoji(e) {
+    const emoji = e.detail.wallpaper || this.data.currentPreviewEmoji;
+    if (emoji) {
+      // 显示下载中提示
+      wx.showLoading({
+        title: '下载中...',
+        mask: true
+      });
+      
+      // 下载图片到本地
+      wx.downloadFile({
+        url: emoji.image,
+        success: (res) => {
+          if (res.statusCode === 200) {
+            // 保存图片到相册
+            wx.saveImageToPhotosAlbum({
+              filePath: res.tempFilePath,
+              success: () => {
+                wx.hideLoading();
+                wx.showToast({
+                  title: '下载成功',
+                  icon: 'success',
+                  duration: 2000
+                });
+              },
+              fail: (err) => {
+                wx.hideLoading();
+                console.error('保存到相册失败:', err);
+                wx.showToast({
+                  title: '保存失败，请检查权限',
+                  icon: 'none',
+                  duration: 3000
+                });
+              }
+            });
+          }
+        },
+        fail: (err) => {
+          wx.hideLoading();
+          console.error('下载失败:', err);
+          wx.showToast({
+            title: '下载失败，请重试',
+            icon: 'none',
+            duration: 3000
+          });
+        }
       });
     }
   },

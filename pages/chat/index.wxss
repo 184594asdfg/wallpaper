@@ -7,7 +7,7 @@
   margin: 0rpx;
   padding: 0rpx;
   box-shadow: none;
-  min-height: calc(100vh - 44px);
+  min-height: 100vh; /* 改为100vh确保完全覆盖页面 */
   box-sizing: border-box;
   background: #fff;
 }
@@ -38,10 +38,19 @@
 
 .type-tabs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8rpx;
   justify-content: center;
   align-items: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8rpx;
+  scrollbar-width: none; /* 隐藏滚动条 - Firefox */
+  -ms-overflow-style: none; /* 隐藏滚动条 - IE/Edge */
+}
+
+.type-tabs::-webkit-scrollbar {
+  display: none; /* 隐藏滚动条 - Chrome/Safari */
 }
 
 .category-tab {

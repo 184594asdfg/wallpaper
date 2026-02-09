@@ -1,0 +1,65 @@
+<!-- mine.wxml -->
+<!-- 导航栏容器 -->
+<view class="nav-container"></view>
+
+<!-- 自定义导航栏 -->
+<view class="custom-nav-bar" style="height: {{navBarHeight}}px; top: {{navBarTop}}px;">
+  <!-- 左侧返回区域 -->
+  <view class="nav-left">
+    <view class="back-btn" bindtap="onBack">
+      <text class="back-icon">←</text>
+    </view>
+  </view>
+  
+  <!-- 中间标题 -->
+  <view class="nav-center">
+    <text class="nav-title">我的</text>
+  </view>
+  
+  <!-- 右侧预留空间（胶囊按钮） -->
+  <view class="nav-right"></view>
+</view>
+
+<!-- 内容区域 -->
+<view class="content-section" style="padding-top: {{contentTop ? contentTop + 'px' : '40px'}};">
+  <!-- 用户信息区域 -->
+  <view class="user-info-section">
+    <view class="user-avatar">
+      <image class="avatar-image" src="../../images/icons/avatar.png" mode="aspectFill"></image>
+    </view>
+    <view class="user-details">
+      <text class="user-name">壁纸爱好者</text>
+      <text class="user-desc">已下载 {{downloadCount}} 张壁纸</text>
+    </view>
+  </view>
+  
+  <!-- 功能列表 -->
+  <view class="function-list">
+    <view class="function-item" bindtap="onFunctionClick" data-type="downloads">
+      <view class="function-icon">📥</view>
+      <text class="function-text">我的下载</text>
+      <text class="function-count">{{downloadCount}}</text>
+    </view>
+    
+    <view class="function-item" bindtap="onFunctionClick" data-type="favorites">
+      <view class="function-icon">❤️</view>
+      <text class="function-text">我的收藏</text>
+      <text class="function-count">{{favoriteCount}}</text>
+    </view>
+    
+    <view class="function-item" bindtap="onFunctionClick" data-type="settings">
+      <view class="function-icon">⚙️</view>
+      <text class="function-text">设置</text>
+    </view>
+    
+    <view class="function-item" bindtap="onFunctionClick" data-type="feedback">
+      <view class="function-icon">💬</view>
+      <text class="function-text">意见反馈</text>
+    </view>
+    
+    <view class="function-item" bindtap="onFunctionClick" data-type="about">
+      <view class="function-icon">ℹ️</view>
+      <text class="function-text">关于我们</text>
+    </view>
+  </view>
+</view>

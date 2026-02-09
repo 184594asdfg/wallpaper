@@ -4,8 +4,10 @@
     "pages/search/index",
     "pages/computer/index",
     "pages/chat/index",
+    "pages/moments/index",
     "pages/avatar/index",
-    "pages/emoji/index"
+    "pages/emoji/index",
+    "pages/mine/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

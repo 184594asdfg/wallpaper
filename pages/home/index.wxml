@@ -29,7 +29,8 @@
   <view class="carousel-section" style="margin-top: {{categoryTop ? categoryTop + 'px' : '80rpx'}}">
     <swiper class="carousel-swiper" indicator-dots circular autoplay interval="3000">
       <swiper-item wx:for="{{carouselList}}" wx:key="id">
-        <view class="carousel-item" style="background-color: {{item.bgColor}}"></view>
+        <image class="carousel-image" src="{{item.image}}" mode="aspectFill" bindtap="onCarouselClick" data-link="{{item.link}}"></image>
+        <view class="carousel-title">{{item.title}}</view>
       </swiper-item>
     </swiper>
   </view>
@@ -37,19 +38,19 @@
   <!-- 功能区域 -->
   <view class="feature-section">
     <view class="feature-item" bindtap="onFeatureClick" data-type="chat">
-      <view class="feature-avatar" style="background-color: #3498db;"></view>
+      <image class="feature-icon" src="../../images/icons/chat.png" mode="aspectFill"></image>
       <text class="feature-text">聊天背景</text>
     </view>
     <view class="feature-item" bindtap="onFeatureClick" data-type="avatar">
-      <view class="feature-avatar" style="background-color: #2ecc71;"></view>
+      <image class="feature-icon" src="../../images/icons/avatar.png" mode="aspectFill"></image>
       <text class="feature-text">头像</text>
     </view>
     <view class="feature-item" bindtap="onFeatureClick" data-type="emoji">
-      <view class="feature-avatar" style="background-color: #f39c12;"></view>
+      <image class="feature-icon" src="../../images/icons/emoji.png" mode="aspectFill"></image>
       <text class="feature-text">表情</text>
     </view>
-    <view class="feature-item" bindtap="onFeatureClick" data-type="挂件">
-      <view class="feature-avatar" style="background-color: #9b59b6;"></view>
+    <view class="feature-item" bindtap="onFeatureClick" data-type="moments">
+      <image class="feature-icon" src="../../images/icons/moments.png" mode="aspectFill"></image>
       <text class="feature-text">朋友圈背景</text>
     </view>
   </view>

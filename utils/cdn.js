@@ -5,6 +5,7 @@ const CDN_CONFIG = {
     phone: 'phone_wallpaper',        // 手机壁纸
     pc: 'pc_wallpaper',           // 电脑壁纸
     chat: 'chat_background',   // 聊天背景
+    moments: 'moments_background', // 朋友圈背景
     avatar: 'avatar',          // 头像
     emoji: 'emoji'             // 表情
   }
@@ -33,6 +34,11 @@ const cdn = {
   // 获取聊天背景图片URL
   getChatBackgroundUrl(filename) {
     return this.getImageUrl('chat', filename);
+  },
+  
+  // 获取朋友圈背景图片URL
+  getMomentsBackgroundUrl(filename) {
+    return this.getImageUrl('moments', filename);
   },
   
   // 获取头像图片URL

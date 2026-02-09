@@ -90,7 +90,7 @@
   margin: 0rpx;
   padding: 0rpx;
   box-shadow: none;
-  min-height: calc(100vh - 44px);
+  min-height: 100vh; /* 改为100vh确保完全覆盖页面 */
   padding-top: 50px;
   box-sizing: border-box;
   background: #fff;
@@ -111,11 +111,21 @@
   overflow: hidden;
 }
 
-.carousel-item {
+.carousel-image {
   width: 100%;
   height: 100%;
   border-radius: 16rpx;
   display: block;
+}
+
+.carousel-title {
+  position: absolute;
+  bottom: 20rpx;
+  left: 20rpx;
+  color: white;
+  font-size: 32rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 4rpx rgba(0,0,0,0.5);
 }
 
 /* 功能区域 */
@@ -140,14 +150,13 @@
   box-sizing: border-box;
 }
 
-.feature-avatar {
+.feature-icon {
   width: 80rpx;
   height: 80rpx;
   border-radius: 50%;
   margin-bottom: 12rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 .feature-text {

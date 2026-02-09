@@ -25,6 +25,11 @@ Component({
     currentDate: {
       type: String,
       value: ''
+    },
+    // 显示比例 'auto' | '1:1' | '16:9'
+    aspectRatio: {
+      type: String,
+      value: 'auto'
     }
   },
 

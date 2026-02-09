@@ -1,6 +1,6 @@
-<!--chat.wxml-->
+<!--moments.wxml-->
 <!-- 通用导航栏组件 -->
-<common-navbar title="聊天背景" bind:back="onBack"></common-navbar>
+<common-navbar title="朋友圈背景" bind:back="onBack"></common-navbar>
 
 <!-- 壁纸预览组件 -->
 <wallpaper-preview 
@@ -15,8 +15,8 @@
 
 <!-- 内容区域 -->
 <view class="content-section" style="padding-top: {{contentTop ? contentTop + 'px' : '40px'}};">
-  <!-- 聊天背景内容 -->
-  <view class="chat-content">
+  <!-- 朋友圈背景内容 -->
+  <view class="moments-content">
     <!-- 类型选择 -->
     <view class="type-section" style="top: {{typeSectionTop}}px;">
       <view class="type-tabs">

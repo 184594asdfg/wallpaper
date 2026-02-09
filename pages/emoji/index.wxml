@@ -12,7 +12,7 @@
         <view 
           wx:for="{{types}}" 
           wx:key="id"
-          class="category-tab {{currentType === item.id ? 'active' : ''}}"
+          class="category-tab {{item.active ? 'active' : ''}}"
           bindtap="onTypeClick"
           data-type="{{item.id}}"
         >
@@ -61,6 +61,7 @@
   previewNavTop="{{previewNavTop}}"
   currentTime="{{currentTime}}"
   currentDate="{{currentDate}}"
+  aspectRatio="1:1"
   bind:closePreview="onClosePreview"
   bind:downloadWallpaper="downloadEmoji"
 ></wallpaper-preview>

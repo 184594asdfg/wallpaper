@@ -33,18 +33,21 @@
       <!-- 图片展示区域 -->
       <view class="images-row">
         <view class="image-card" bindtap="onImageClick" data-url="/pages/computer/index">
-          <view class="image-placeholder" style="background-color: #3498db;">
-            <text class="image-text">电脑壁纸</text>
+          <view class="image-container">
+            <image class="search-image" src="../../images/search/computer.jpg" mode="aspectFill"></image>
+            <view class="image-text-overlay">电脑壁纸</view>
           </view>
         </view>
         <view class="image-card" bindtap="onImageClick" data-url="/pages/moments/index">
-          <view class="image-placeholder" style="background-color: #2ecc71;">
-            <text class="image-text">朋友圈背景</text>
+          <view class="image-container">
+            <image class="search-image" src="../../images/search/moments.jpg" mode="aspectFill"></image>
+            <view class="image-text-overlay">朋友圈背景</view>
           </view>
         </view>
         <view class="image-card" bindtap="onImageClick" data-url="/pages/chat/index">
-          <view class="image-placeholder" style="background-color: #f39c12;">
-            <text class="image-text">聊天背景</text>
+          <view class="image-container">
+            <image class="search-image" src="../../images/search/chat.jpg" mode="aspectFill"></image>
+            <view class="image-text-overlay">聊天背景</view>
           </view>
         </view>
       </view>

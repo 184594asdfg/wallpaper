@@ -33,9 +33,9 @@
         </view>
         
         <image 
-          class="wallpaper-image" 
+          class="wallpaper-image {{aspectRatio === '1:1' ? 'wallpaper-image-square' : ''}} {{aspectRatio === '16:9' ? 'wallpaper-image-wide' : ''}}" 
           src="{{currentPreviewWallpaper.image}}" 
-          mode="aspectFill"
+          mode="{{aspectRatio === 'auto' ? 'aspectFill' : 'contain'}}"
         ></image>
       </view>
     </view>

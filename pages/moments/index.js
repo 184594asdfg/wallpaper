@@ -1,4 +1,4 @@
-// chat.js
+// moments.js
 const { request } = require('../../config/request');
 const cdn = require('../../utils/cdn');
 
@@ -12,15 +12,15 @@ Page({
     // 类型相关值
     currentType: 'latest',
     types: [
-      { id: 0, name: '精选', value: '0' , active: true },
-      { id: 1, name: '最新', value: '1' , active: false },
-      { id: 2, name: '下载最多', value: '2' , active: false }
+      { id: 0, name: '精选', value: '0', active: true },
+      { id: 1, name: '最新', value: '1', active: false },
+      { id: 2, name: '下载最多', value: '2', active: false }
     ],
     // 壁纸数据
     wallpapers: [],
     // 分页相关值
     page: 1,
-    limit: 12,
+    limit: 10,
     totalPages: 1,
     loading: false,
     // 预览状态
@@ -87,9 +87,9 @@ Page({
       requestData.type = type;
     }
     
-    // 调用壁纸接口（使用聊天背景接口）
+    // 调用壁纸接口（使用朋友圈背景接口）
     request({
-      url: '/wallpaper/chat',
+      url: '/wallpaper/moments',
       data: requestData
     }).then((data) => {
       // 成功获取数据
@@ -100,7 +100,7 @@ Page({
           ...item,
           id: item.wallpaper_id, // 适配数据结构，将wallpaper_id映射为id
           // 使用CDN地址和正确的文件夹路径
-          image: cdn.getChatBackgroundUrl(item.filename)
+          image: cdn.getMomentsBackgroundUrl(item.filename)
         }));
         
         // 根据是否加载更多来决定是替换还是追加数据

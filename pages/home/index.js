@@ -6,14 +6,18 @@ Page({
   data: {
     // 分类数据
     categories: [
-      { id: 1, name: '手机壁纸', value: 0, active: true },
-      { id: 2, name: '电脑壁纸', value: 1, active: false }
+      { id: 1, name: '精选', value: 0, active: true },
+      { id: 2, name: '最新', value: 1, active: false },
+      { id: 3, name: '最佳锁屏', value: 3, active: false },
+      { id: 5, name: '下载最多', value: 2, active: false }
     ],
     // 轮播图数据
     carouselList: [
-      { id: 1, bgColor: '#3498db' },
-      { id: 2, bgColor: '#2ecc71' },
-      { id: 3, bgColor: '#9b59b6' }
+      { 
+        id: 1, 
+        image: '../../images/banner/banner1.jpg',
+        link: '/pages/phone/index'
+      },
     ],
     // 壁纸数据
     wallpapers: [],
@@ -228,7 +232,9 @@ Page({
   onNavChange(e) {
     const index = parseInt(e.currentTarget.dataset.index);
     // 导航切换逻辑
-    if (index === 1) {
+    if (index === 0) {
+      // 已经在首页，不需要跳转
+    } else if (index === 1) {
       // 跳转到搜索页面
       console.log('准备跳转到搜索页面');
       wx.redirectTo({
@@ -240,17 +246,68 @@ Page({
           console.log('导航跳转失败:', err);
         }
       });
-    } else if (index === 0) {
-      // 已经在首页，不需要跳转
+    } else if (index === 2) {
+      // 跳转到我的页面
+      console.log('准备跳转到我的页面');
+      wx.redirectTo({
+        url: '/pages/mine/index',
+        success: function(res) {
+          console.log('导航跳转成功:', res);
+        },
+        fail: function(err) {
+          console.log('导航跳转失败:', err);
+        }
+      });
     }
   },
   
   // 下载壁纸
-  downloadWallpaper() {
-    if (this.data.currentPreviewWallpaper) {
-      wx.showToast({
-        title: '下载功能开发中',
-        icon: 'none'
+  downloadWallpaper(e) {
+    const wallpaper = e.detail.wallpaper || this.data.currentPreviewWallpaper;
+    if (wallpaper) {
+      // 显示下载中提示
+      wx.showLoading({
+        title: '下载中...',
+        mask: true
+      });
+      
+      // 下载图片到本地
+      wx.downloadFile({
+        url: wallpaper.image,
+        success: (res) => {
+          if (res.statusCode === 200) {
+            // 保存图片到相册
+            wx.saveImageToPhotosAlbum({
+              filePath: res.tempFilePath,
+              success: () => {
+                wx.hideLoading();
+                wx.showToast({
+                  title: '下载成功',
+                  icon: 'success',
+                  duration: 2000
+                });
+              },
+              fail: (err) => {
+                wx.hideLoading();
+                console.error('保存到相册失败:', err);
+                wx.showToast({
+                  title: '保存失败，请检查权限',
+                  icon: 'none',
+                  duration: 3000
+                });
+              }
+            });
+          }
+        },
+        fail: (err) => {
+          wx.hideLoading();
+          console.error('下载失败:', err);
+          wx.showToast({
+            title: '下载失败，请重试',
+            icon: 'none',
+            duration: 3000
+          });
+        }
       });
     }
   },
@@ -281,6 +338,17 @@ Page({
         console.log('跳转失败:', err);
       }
     });
+  },
+  
+  // 轮播图点击事件
+  onCarouselClick(e) {
+    const link = e.currentTarget.dataset.link;
+    
+    if (link) {
+      wx.navigateTo({
+        url: link
+      });
+    }
   },
   
   // 功能区域点击事件
@@ -327,6 +395,21 @@ Page({
         },
         fail: function(err) {
           console.log('跳转到表情页面失败:', err);
+          wx.showToast({
+            title: '跳转失败',
+            icon: 'none'
+          });
+        }
+      });
+    } else if (type === 'moments') {
+      // 跳转到朋友圈背景页面
+      wx.navigateTo({
+        url: '/pages/moments/index',
+        success: function(res) {
+          console.log('跳转到朋友圈背景页面成功:', res);
+        },
+        fail: function(err) {
+          console.log('跳转到朋友圈背景页面失败:', err);
           wx.showToast({
             title: '跳转失败',
             icon: 'none'
