@@ -1,0 +1,40 @@
+<!--preview.wxml-->
+<!-- 预览页面内容 -->
+<view class="preview-container">
+  <!-- 预览内容区域 -->
+  <view class="preview-content">
+
+    <!-- 预览界面返回容器 -->
+    <view class="preview-navbar" style="top: {{menuButtonTop}}px; height: {{menuButtonHeight}}px; left: 20rpx;">
+      <!-- 左边返回按钮 -->
+      <view class="nav-button left-button" bindtap="onBack">
+        <text class="nav-icon">←</text>
+      </view>
+    </view>
+    
+    <!-- 时间和日期显示 -->
+    <view class="preview-time-date" wx:if="{{showTimeDate}}" style="top: calc({{menuButtonTop}}px + {{menuButtonHeight}}px + 20rpx);">
+      <text class="preview-time">{{currentTime}}</text>
+      <text class="preview-date">{{currentDate}}</text>
+    </view>
+    
+    <!-- 壁纸展示区域 -->
+    <view class="wallpaper-container">
+      <view class="wallpaper-wrapper">
+        <!-- 底部下载按钮 -->
+        <view class="preview-footer">
+          <button class="download-btn" bindtap="downloadWallpaper">
+            <text class="download-icon">⬇️</text>
+            <text class="download-text">立即下载</text>
+          </button>
+        </view>
+        
+        <image 
+          class="wallpaper-image {{aspectRatio === '1:1' ? 'wallpaper-image-square' : ''}} {{aspectRatio === '9:16' ? 'wallpaper-image-vertical' : ''}}" 
+          src="{{wallpaperData.image}}" 
+          mode="{{aspectRatio === 'auto' ? 'aspectFill' : (aspectRatio === '9:16' ? 'aspectFill' : 'contain')}}"
+        ></image>
+      </view>
+    </view>
+  </view>
+</view>
