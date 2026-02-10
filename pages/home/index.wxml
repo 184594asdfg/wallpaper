@@ -84,12 +84,7 @@
       </view>
     </view>
 
-    <!-- 空状态 -->
-    <view class="empty-state" wx:if="{{wallpapers.length === 0}}">
-      <text class="empty-icon">🖼️</text>
-      <text class="empty-text">暂无壁纸</text>
-      <text class="empty-desc">尝试切换分类</text>
-    </view>
+    
     
     <!-- 加载更多指示器 -->
     <view class="load-more-container" wx:if="{{loading && wallpapers.length > 0}}">

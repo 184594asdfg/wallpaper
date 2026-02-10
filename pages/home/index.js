@@ -15,7 +15,7 @@ Page({
     carouselList: [
       { 
         id: 1, 
-        image: '../../images/banner/banner1.jpg',
+        image: '../../images/banner/banner_01.jpg',
         link: '/pages/phone/index'
       },
     ],

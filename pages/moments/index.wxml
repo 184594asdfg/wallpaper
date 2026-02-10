@@ -9,6 +9,7 @@
   previewNavTop="{{previewNavTop}}"
   currentTime="{{currentTime}}"
   currentDate="{{currentDate}}"
+  aspectRatio="1:1"
   bind:closePreview="onClosePreview"
   bind:downloadWallpaper="downloadWallpaper"
 ></wallpaper-preview>
@@ -43,12 +44,7 @@
           <image class="wallpaper-image" src="{{item.image}}" mode="aspectFill" bindtap="previewWallpaper" data-wallpaper="{{item}}"></image>
         </view>
         
-        <!-- 空状态 -->
-        <view class="empty-state" wx:if="{{wallpapers.length === 0}}">
-          <text class="empty-icon">🖼️</text>
-          <text class="empty-text">暂无壁纸</text>
-          <text class="empty-desc">请稍后重试</text>
-        </view>
+       
         
         <!-- 加载更多指示器 -->
         <view class="load-more-container" wx:if="{{loading && wallpapers.length > 0}}">

@@ -32,12 +32,7 @@
           <image class="avatar-image" src="{{item.image}}" mode="aspectFill" bindtap="previewAvatar" data-avatar="{{item}}"></image>
         </view>
         
-        <!-- 空状态 -->
-        <view class="empty-state" wx:if="{{avatars.length === 0}}">
-          <text class="empty-icon">🖼️</text>
-          <text class="empty-text">暂无头像</text>
-          <text class="empty-desc">请稍后重试</text>
-        </view>
+        
         
         <!-- 加载更多指示器 -->
         <view class="load-more-container" wx:if="{{loading && avatars.length > 0}}">
