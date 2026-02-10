@@ -249,70 +249,10 @@ Page({
   // 预览头像
   previewAvatar(e) {
     const avatar = e.currentTarget.dataset.avatar;
-    this.calculatePreviewNavPosition(); // 重新计算预览页面导航栏位置
-    this.setData({
-      showPreview: true,
-      currentPreviewAvatar: avatar
+    // 跳转到预览页面
+    wx.navigateTo({
+      url: `/pages/preview/index?wallpaperData=${encodeURIComponent(JSON.stringify(avatar))}&aspectRatio=1:1&showTimeDate=true`
     });
-  },
-  
-  // 关闭预览
-  onClosePreview() {
-    this.setData({
-      showPreview: false,
-      currentPreviewAvatar: null
-    });
-  },
-  
-  // 下载头像
-  downloadAvatar(e) {
-    const avatar = e.detail.wallpaper || this.data.currentPreviewAvatar;
-    if (avatar) {
-      // 显示下载中提示
-      wx.showLoading({
-        title: '下载中...',
-        mask: true
-      });
-      
-      // 下载图片到本地
-      wx.downloadFile({
-        url: avatar.image,
-        success: (res) => {
-          if (res.statusCode === 200) {
-            // 保存图片到相册
-            wx.saveImageToPhotosAlbum({
-              filePath: res.tempFilePath,
-              success: () => {
-                wx.hideLoading();
-                wx.showToast({
-                  title: '下载成功',
-                  icon: 'success',
-                  duration: 2000
-                });
-              },
-              fail: (err) => {
-                wx.hideLoading();
-                console.error('保存到相册失败:', err);
-                wx.showToast({
-                  title: '保存失败，请检查权限',
-                  icon: 'none',
-                  duration: 3000
-                });
-              }
-            });
-          }
-        },
-        fail: (err) => {
-          wx.hideLoading();
-          console.error('下载失败:', err);
-          wx.showToast({
-            title: '下载失败，请重试',
-            icon: 'none',
-            duration: 3000
-          });
-        }
-      });
-    }
   },
   
   // 阻止触摸移动

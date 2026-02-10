@@ -154,16 +154,6 @@
   border-radius: 0rpx;
 }
 
-/* 16:9宽屏比例显示 */
-.wallpaper-image-wide {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16/9;  /* 强制保持16:9比例 */
-  object-fit: contain;
-  margin: auto;
-  border-radius: 0rpx;
-}
-
 /* 底部下载按钮 */
 .preview-footer {
   position: absolute;

@@ -2,18 +2,6 @@
 <!-- 通用导航栏组件 -->
 <common-navbar title="朋友圈背景" bind:back="onBack"></common-navbar>
 
-<!-- 壁纸预览组件 -->
-<wallpaper-preview 
-  showPreview="{{showPreview}}"
-  currentPreviewWallpaper="{{currentPreviewWallpaper}}"
-  previewNavTop="{{previewNavTop}}"
-  currentTime="{{currentTime}}"
-  currentDate="{{currentDate}}"
-  aspectRatio="1:1"
-  bind:closePreview="onClosePreview"
-  bind:downloadWallpaper="downloadWallpaper"
-></wallpaper-preview>
-
 <!-- 内容区域 -->
 <view class="content-section" style="padding-top: {{contentTop ? contentTop + 'px' : '40px'}};">
   <!-- 朋友圈背景内容 -->

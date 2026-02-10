@@ -40,7 +40,7 @@
   display: flex;
   flex-wrap: nowrap;
   gap: 8rpx;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -98,7 +98,7 @@
 /* 壁纸网格 */
 .wallpaper-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16rpx;
 }
 

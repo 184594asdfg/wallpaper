@@ -114,14 +114,3 @@
     </view>
   </view>
 </view>
-
-<!-- 壁纸预览组件 -->
-<wallpaper-preview 
-  showPreview="{{showPreview}}"
-  currentPreviewWallpaper="{{currentPreviewWallpaper}}"
-  previewNavTop="{{previewNavTop}}"
-  currentTime="{{currentTime}}"
-  currentDate="{{currentDate}}"
-  bind:closePreview="onClosePreview"
-  bind:downloadWallpaper="downloadWallpaper"
-></wallpaper-preview>

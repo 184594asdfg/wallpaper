@@ -2,17 +2,6 @@
 <!-- 通用导航栏组件 -->
 <common-navbar title="聊天背景" bind:back="onBack"></common-navbar>
 
-<!-- 壁纸预览组件 -->
-<wallpaper-preview 
-  showPreview="{{showPreview}}"
-  currentPreviewWallpaper="{{currentPreviewWallpaper}}"
-  previewNavTop="{{previewNavTop}}"
-  currentTime="{{currentTime}}"
-  currentDate="{{currentDate}}"
-  bind:closePreview="onClosePreview"
-  bind:downloadWallpaper="downloadWallpaper"
-></wallpaper-preview>
-
 <!-- 内容区域 -->
 <view class="content-section" style="padding-top: {{contentTop ? contentTop + 'px' : '40px'}};">
   <!-- 聊天背景内容 -->
@@ -43,12 +32,7 @@
           <image class="wallpaper-image" src="{{item.image}}" mode="aspectFill" bindtap="previewWallpaper" data-wallpaper="{{item}}"></image>
         </view>
         
-        <!-- 空状态 -->
-        <view class="empty-state" wx:if="{{wallpapers.length === 0}}">
-          <text class="empty-icon">🖼️</text>
-          <text class="empty-text">暂无壁纸</text>
-          <text class="empty-desc">请稍后重试</text>
-        </view>
+        
         
         <!-- 加载更多指示器 -->
         <view class="load-more-container" wx:if="{{loading && wallpapers.length > 0}}">

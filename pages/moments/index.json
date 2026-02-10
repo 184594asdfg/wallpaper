@@ -1,7 +1,0 @@
-{
-  "usingComponents": {
-    "wallpaper-preview": "/components/wallpaper-preview/index",
-    "common-navbar": "/components/common-navbar/index"
-  },
-  "navigationStyle": "custom"
-}

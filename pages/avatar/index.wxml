@@ -48,15 +48,3 @@
     </view>
   </view>
 </view>
-
-<!-- 头像预览组件 -->
-<wallpaper-preview 
-  showPreview="{{showPreview}}"
-  currentPreviewWallpaper="{{currentPreviewAvatar}}"
-  previewNavTop="{{previewNavTop}}"
-  currentTime="{{currentTime}}"
-  currentDate="{{currentDate}}"
-  aspectRatio="1:1"
-  bind:closePreview="onClosePreview"
-  bind:downloadWallpaper="downloadAvatar"
-></wallpaper-preview>

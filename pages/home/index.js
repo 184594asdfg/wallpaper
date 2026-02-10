@@ -213,18 +213,9 @@ Page({
   // 预览壁纸
   previewWallpaper(e) {
     const wallpaper = e.currentTarget.dataset.wallpaper;
-    this.calculatePreviewNavPosition(); // 重新计算预览页面导航栏位置
-    this.setData({
-      showPreview: true,
-      currentPreviewWallpaper: wallpaper
-    });
-  },
-  
-  // 关闭预览
-  onClosePreview() {
-    this.setData({
-      showPreview: false,
-      currentPreviewWallpaper: null
+    // 跳转到预览页面
+    wx.navigateTo({
+      url: `/pages/preview/index?wallpaperData=${encodeURIComponent(JSON.stringify(wallpaper))}&aspectRatio=auto&showTimeDate=true`
     });
   },
   
