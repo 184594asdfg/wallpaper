@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "common-navbar": "/components/common-navbar/index"
+  },
+  "navigationStyle": "custom",
+  "disableSwipeBack": true
+}

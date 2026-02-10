@@ -82,7 +82,7 @@
 
 /* 壁纸展示 */
 .wallpaper-section {
-  margin-top: 80rpx;
+  margin-top: 120rpx;
   margin-bottom: 40rpx;
 }
 

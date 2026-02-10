@@ -12,7 +12,7 @@ Page({
     // 类型相关值
     currentType: 'latest',
     types: [
-      { id: 0, name: '精选', value: '0' , active: true},
+      { id: 0, name: '推荐', value: '0' , active: true},
       { id: 1, name: '最新', value: '1' , active: false},
       { id: 2, name: '下载最多', value: '2' , active: false}
     ],
@@ -246,10 +246,9 @@ Page({
   // 预览表情
   previewEmoji(e) {
     const emoji = e.currentTarget.dataset.emoji;
-    this.calculatePreviewNavPosition(); // 重新计算预览页面导航栏位置
-    this.setData({
-      showPreview: true,
-      currentPreviewEmoji: emoji
+    // 跳转到预览页面（表情使用1:1比例）
+    wx.navigateTo({
+      url: `/pages/preview/index?wallpaperData=${encodeURIComponent(JSON.stringify(emoji))}&aspectRatio=1:1&showTimeDate=true`
     });
   },
   

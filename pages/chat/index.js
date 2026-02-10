@@ -12,7 +12,7 @@ Page({
     // 类型相关值
     currentType: 'latest',
     types: [
-      { id: 0, name: '精选', value: '0' , active: true },
+      { id: 0, name: '推荐', value: '0' , active: true },
       { id: 1, name: '最新', value: '1' , active: false },
       { id: 2, name: '下载最多', value: '2' , active: false }
     ],
@@ -254,10 +254,9 @@ Page({
   // 预览壁纸
   previewWallpaper(e) {
     const wallpaper = e.currentTarget.dataset.wallpaper;
-    this.calculatePreviewNavPosition(); // 重新计算预览页面导航栏位置
-    this.setData({
-      showPreview: true,
-      currentPreviewWallpaper: wallpaper
+    // 跳转到预览页面
+    wx.navigateTo({
+      url: `/pages/preview/index?wallpaperData=${encodeURIComponent(JSON.stringify(wallpaper))}&aspectRatio=auto&showTimeDate=true`
     });
   },
   

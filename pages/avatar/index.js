@@ -12,7 +12,7 @@ Page({
     // 类型相关值
     currentType: 'latest',
     types: [
-      { id: 0, name: '精选', value: '0', active: true },
+      { id: 0, name: '推荐', value: '0', active: true },
       { id: 1, name: '女生头像', value: '1', active: false },
       { id: 2, name: '男生头像', value: '2', active: false },
       { id: 3, name: '情侣头像', value: '3', active: false },

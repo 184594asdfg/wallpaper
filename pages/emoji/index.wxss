@@ -91,14 +91,14 @@
 
 /* 表情展示 */
 .emoji-section {
-  margin-top: 80rpx;
+  margin-top: 120rpx;
   margin-bottom: 40rpx;
 }
 
 /* 表情网格 */
 .emoji-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16rpx;
 }
 

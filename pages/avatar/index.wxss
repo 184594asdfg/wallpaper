@@ -38,10 +38,17 @@
 
 .type-tabs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8rpx;
-  justify-content: center;
   align-items: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.type-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .category-tab {
@@ -82,14 +89,14 @@
 
 /* 头像展示 */
 .avatar-section {
-  margin-top: 80rpx;
+  margin-top: 120rpx;
   margin-bottom: 40rpx;
 }
 
 /* 头像网格 */
 .avatar-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16rpx;
 }
 

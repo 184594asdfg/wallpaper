@@ -20,7 +20,7 @@
   left: 0;
   right: 0;
   height: 60px;
-  background: transparent;
+  background: #fff;
   z-index: 998;
   pointer-events: none;
 }

@@ -30,9 +30,9 @@
         </view>
         
         <image 
-          class="wallpaper-image {{aspectRatio === '1:1' ? 'wallpaper-image-square' : ''}} {{aspectRatio === '9:16' ? 'wallpaper-image-vertical' : ''}}" 
+          class="wallpaper-image {{aspectRatio === '1:1' ? 'wallpaper-image-square' : ''}} {{aspectRatio === '9:16' ? 'wallpaper-image-vertical' : ''}} {{aspectRatio === '16:9' ? 'wallpaper-image-horizontal' : ''}}" 
           src="{{wallpaperData.image}}" 
-          mode="{{aspectRatio === 'auto' ? 'aspectFill' : (aspectRatio === '9:16' ? 'aspectFill' : 'contain')}}"
+          mode="{{aspectRatio === 'auto' ? 'aspectFill' : (aspectRatio === '9:16' ? 'aspectFill' : (aspectRatio === '16:9' ? 'contain' : 'contain'))}}"
         ></image>
       </view>
     </view>

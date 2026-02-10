@@ -47,7 +47,7 @@
           wx:for="{{wallpapers}}" 
           wx:key="id"
         >
-          <image class="wallpaper-image" src="{{item.image}}" mode="aspectFill"></image>
+          <image class="wallpaper-image" src="{{item.image}}" mode="aspectFill" bindtap="previewWallpaper" data-wallpaper="{{item}}"></image>
         </view>
         
        

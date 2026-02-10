@@ -6,10 +6,12 @@ Page({
   data: {
     // 分类数据
     categories: [
-      { id: 1, name: '精选', value: 0, active: true },
-      { id: 2, name: '最新', value: 1, active: false },
-      { id: 3, name: '最佳锁屏', value: 3, active: false },
-      { id: 5, name: '下载最多', value: 2, active: false }
+      { id: 1, name: '推荐', value: 0, active: true },
+      { id: 2, name: '锁屏', value: 1, active: false },
+      { id: 3, name: '风景', value: 3, active: false },
+      { id: 5, name: '动漫', value: 4, active: false },
+      { id: 6, name: '极简', value: 5, active: false },
+      { id: 7, name: '文字', value: 6, active: false },
     ],
     // 轮播图数据
     carouselList: [

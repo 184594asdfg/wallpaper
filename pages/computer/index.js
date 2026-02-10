@@ -165,5 +165,14 @@ Page({
     wx.navigateBack({
       delta: 1
     });
+  },
+
+  // 预览壁纸
+  previewWallpaper(e) {
+    const wallpaper = e.currentTarget.dataset.wallpaper;
+    // 跳转到预览页面（电脑壁纸使用16:9比例）
+    wx.navigateTo({
+      url: `/pages/preview/index?wallpaperData=${encodeURIComponent(JSON.stringify(wallpaper))}&aspectRatio=16:9&showTimeDate=true`
+    });
   }
 })

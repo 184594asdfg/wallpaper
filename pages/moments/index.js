@@ -1,4 +1,4 @@
-// moments.js
+// avatar.js
 const { request } = require('../../config/request');
 const cdn = require('../../utils/cdn');
 
@@ -12,24 +12,23 @@ Page({
     // 类型相关值
     currentType: 'latest',
     types: [
-      { id: 0, name: '精选', value: '0', active: true },
-      { id: 1, name: '最新', value: '1', active: false },
-      { id: 2, name: '下载最多', value: '2', active: false }
+      { id: 0, name: '推荐', value: '0', active: true },
+      { id: 2, name: '最新', value: '1', active: false },
+      { id: 1, name: '情侣', value: '1', active: false },
+
     ],
-    // 壁纸数据
-    wallpapers: [],
+    // 头像数据
+    avatars: [],
     // 分页相关值
     page: 1,
-    limit: 10,
+    limit: 15,
     totalPages: 1,
     loading: false,
     // 预览状态
     showPreview: false,
-    currentPreviewWallpaper: null,
+    currentPreviewAvatar: null,
     // 预览页面导航栏位置
     previewNavTop: 0,
-    // 时间日期高度相关值
-    timeDateHeight: 0,
     // 时间和日期
     currentTime: '',
     currentDate: ''
@@ -40,7 +39,7 @@ Page({
     this.calculateNavBarPosition(); // 计算导航栏位置和高度
     this.calculateContentPosition(); // 计算内容区域位置
     this.calculateTypeSectionPosition(); // 计算类型区域位置
-    this.loadWallpapers(); // 加载壁纸数据
+    this.loadAvatars(); // 加载头像数据
     this.updateDateTime(); // 更新时间和日期
     // 每秒更新一次时间
     this.timeInterval = setInterval(() => {
@@ -65,11 +64,11 @@ Page({
     }
     
     // 加载更多数据
-    this.loadWallpapers(true);
+    this.loadAvatars(true);
   },
   
-  // 加载壁纸数据
-  loadWallpapers(isLoadMore = false, type = null) {
+  // 加载头像数据
+  loadAvatars(isLoadMore = false, type = null) {
     // 防止重复加载
     if (this.data.loading) return;
     
@@ -87,27 +86,25 @@ Page({
       requestData.type = type;
     }
     
-    // 调用壁纸接口（使用朋友圈背景接口）
+    // 调用头像接口
     request({
       url: '/wallpaper/moments',
       data: requestData
     }).then((data) => {
       // 成功获取数据
-      // 处理接口返回的数据结构
       if (data && data.list) {
-        // 为每个壁纸添加完整的图片URL
-        const wallpapersWithImageUrl = data.list.map(item => ({
+        // 为每个头像添加完整的图片URL
+        const avatarsWithImageUrl = data.list.map(item => ({
           ...item,
-          id: item.wallpaper_id, // 适配数据结构，将wallpaper_id映射为id
-          // 使用CDN地址和正确的文件夹路径
+          id: item.avatar_id,
           image: cdn.getMomentsBackgroundUrl(item.filename)
         }));
         
         // 根据是否加载更多来决定是替换还是追加数据
-        const newWallpapers = isLoadMore ? [...this.data.wallpapers, ...wallpapersWithImageUrl] : wallpapersWithImageUrl;
+        const newAvatars = isLoadMore ? [...this.data.avatars, ...avatarsWithImageUrl] : avatarsWithImageUrl;
         
         this.setData({
-          wallpapers: newWallpapers,
+          avatars: newAvatars,
           page: isLoadMore ? this.data.page + 1 : 1,
           totalPages: data.totalPages || 1,
           loading: false
@@ -115,15 +112,15 @@ Page({
       } else {
         // 接口返回数据异常，设置空数组
         this.setData({ 
-          wallpapers: [],
+          avatars: [],
           loading: false 
         });
       }
     }).catch((err) => {
-      console.error('加载壁纸失败:', err);
+      console.error('加载头像失败:', err);
       // 接口调用失败，设置空数组
       this.setData({ 
-        wallpapers: [],
+        avatars: [],
         loading: false 
       });
     });
@@ -148,7 +145,7 @@ Page({
     // 获取胶囊按钮位置
     const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
     // 计算内容区域顶部距离（导航栏底部距离）
-    const contentTop = menuButtonInfo.bottom; // 导航栏底部再加20px间距
+    const contentTop = menuButtonInfo.bottom;
     // 设置内容区域顶部距离
     this.setData({
       contentTop: contentTop
@@ -189,14 +186,14 @@ Page({
       types: updatedTypes
     });
     
-    // 重置分页数据并重新加载壁纸数据
+    // 重置分页数据并重新加载头像数据
     this.setData({
       page: 1,
-      wallpapers: []
+      avatars: []
     });
     
     // 重新调用接口，传入type参数
-    this.loadWallpapers(false, selectedType.value);
+    this.loadAvatars(false, selectedType.value);
   },
   
   // 返回按钮点击事件
@@ -241,83 +238,19 @@ Page({
     // 获取胶囊按钮位置
     const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
     // 设置预览页面导航栏高度、顶部距离
-    // 计算时间日期显示位置（导航栏底部加上适当间距）
-    const timeDateHeight = menuButtonInfo.bottom + 0;
-    
     this.setData({
       previewNavHeight: menuButtonInfo.height + 8,
-      previewNavTop: menuButtonInfo.top,
-      timeDateHeight: timeDateHeight
+      previewNavTop: menuButtonInfo.top
     });
   },
   
-  // 预览壁纸
-  previewWallpaper(e) {
-    const wallpaper = e.currentTarget.dataset.wallpaper;
-    this.calculatePreviewNavPosition(); // 重新计算预览页面导航栏位置
-    this.setData({
-      showPreview: true,
-      currentPreviewWallpaper: wallpaper
+  // 预览头像
+  previewAvatar(e) {
+    const avatar = e.currentTarget.dataset.avatar;
+    // 跳转到预览页面
+    wx.navigateTo({
+      url: `/pages/preview/index?wallpaperData=${encodeURIComponent(JSON.stringify(avatar))}&aspectRatio=1:1&showTimeDate=true`
     });
-  },
-  
-  // 关闭预览
-  onClosePreview() {
-    this.setData({
-      showPreview: false,
-      currentPreviewWallpaper: null
-    });
-  },
-  
-  // 下载壁纸
-  downloadWallpaper(e) {
-    const wallpaper = e.detail.wallpaper || this.data.currentPreviewWallpaper;
-    if (wallpaper) {
-      // 显示下载中提示
-      wx.showLoading({
-        title: '下载中...',
-        mask: true
-      });
-      
-      // 下载图片到本地
-      wx.downloadFile({
-        url: wallpaper.image,
-        success: (res) => {
-          if (res.statusCode === 200) {
-            // 保存图片到相册
-            wx.saveImageToPhotosAlbum({
-              filePath: res.tempFilePath,
-              success: () => {
-                wx.hideLoading();
-                wx.showToast({
-                  title: '下载成功',
-                  icon: 'success',
-                  duration: 2000
-                });
-              },
-              fail: (err) => {
-                wx.hideLoading();
-                console.error('保存到相册失败:', err);
-                wx.showToast({
-                  title: '保存失败，请检查权限',
-                  icon: 'none',
-                  duration: 3000
-                });
-              }
-            });
-          }
-        },
-        fail: (err) => {
-          wx.hideLoading();
-          console.error('下载失败:', err);
-          wx.showToast({
-            title: '下载失败，请重试',
-            icon: 'none',
-            duration: 3000
-          });
-        }
-      });
-    }
   },
   
   // 阻止触摸移动

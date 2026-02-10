@@ -1,4 +1,4 @@
-/* moments.wxss */
+/* avatar.wxss */
 
 
 /* 内容区域 - 统一白色背景 */
@@ -7,13 +7,13 @@
   margin: 0rpx;
   padding: 0rpx;
   box-shadow: none;
-  min-height: 100vh; /* 改为100vh确保完全覆盖页面 */
+  min-height: calc(100vh - 44px);
   box-sizing: border-box;
   background: #fff;
 }
 
-/* 朋友圈背景内容 */
-.moments-content {
+/* 头像内容 */
+.avatar-content {
   padding: 0 20rpx;
 }
 
@@ -40,17 +40,16 @@
   display: flex;
   flex-wrap: nowrap;
   gap: 8rpx;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 8rpx;
-  scrollbar-width: none; /* 隐藏滚动条 - Firefox */
-  -ms-overflow-style: none; /* 隐藏滚动条 - IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .type-tabs::-webkit-scrollbar {
-  display: none; /* 隐藏滚动条 - Chrome/Safari */
+  display: none;
 }
 
 .category-tab {
@@ -89,27 +88,27 @@
   opacity: 0.7;
 }
 
-/* 壁纸展示 */
-.wallpaper-section {
-  margin-top: 80rpx;
+/* 头像展示 */
+.avatar-section {
+  margin-top: 120rpx;
   margin-bottom: 40rpx;
 }
 
-/* 壁纸网格 */
-.wallpaper-grid {
+/* 头像网格 */
+.avatar-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16rpx;
 }
 
-.wallpaper-item {
+.avatar-item {
   width: 100%;
   border-radius: 12rpx;
   overflow: hidden;
   box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
 }
 
-.wallpaper-image {
+.avatar-image {
   width: 100%;
   height: 100%;
   aspect-ratio: 1/1; /* 1:1 正方形比例 */

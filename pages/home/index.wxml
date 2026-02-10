@@ -102,15 +102,11 @@
   <view class="bottom-nav">
     <view class="nav-item active" bindtap="onNavChange" data-index="0">
       <text class="nav-icon">🏠</text>
-      <text class="nav-text">精选</text>
+      <text class="nav-text">推荐</text>
     </view>
     <view class="nav-item" bindtap="onNavChange" data-index="1">
       <text class="nav-icon">🔍</text>
       <text class="nav-text">搜索</text>
-    </view>
-    <view class="nav-item" bindtap="onNavChange" data-index="2">
-      <text class="nav-icon">👤</text>
-      <text class="nav-text">我的</text>
     </view>
   </view>
 </view>

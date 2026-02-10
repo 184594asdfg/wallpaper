@@ -1,11 +1,11 @@
-<!--moments.wxml-->
+<!--avatar.wxml-->
 <!-- 通用导航栏组件 -->
 <common-navbar title="朋友圈背景" bind:back="onBack"></common-navbar>
 
 <!-- 内容区域 -->
 <view class="content-section" style="padding-top: {{contentTop ? contentTop + 'px' : '40px'}};">
-  <!-- 朋友圈背景内容 -->
-  <view class="moments-content">
+  <!-- 头像内容 -->
+  <view class="avatar-content">
     <!-- 类型选择 -->
     <view class="type-section" style="top: {{typeSectionTop}}px;">
       <view class="type-tabs">
@@ -21,27 +21,27 @@
       </view>
     </view>
     
-    <!-- 壁纸展示 -->
-    <view class="wallpaper-section">
-      <view class="wallpaper-grid">
+    <!-- 头像展示 -->
+    <view class="avatar-section">
+      <view class="avatar-grid">
         <view 
-          class="wallpaper-item" 
-          wx:for="{{wallpapers}}" 
+          class="avatar-item" 
+          wx:for="{{avatars}}" 
           wx:key="id"
         >
-          <image class="wallpaper-image" src="{{item.image}}" mode="aspectFill" bindtap="previewWallpaper" data-wallpaper="{{item}}"></image>
+          <image class="avatar-image" src="{{item.image}}" mode="aspectFill" bindtap="previewAvatar" data-avatar="{{item}}"></image>
         </view>
         
-       
+        
         
         <!-- 加载更多指示器 -->
-        <view class="load-more-container" wx:if="{{loading && wallpapers.length > 0}}">
+        <view class="load-more-container" wx:if="{{loading && avatars.length > 0}}">
           <view class="loading-spinner"></view>
           <text class="loading-text">加载中...</text>
         </view>
         
         <!-- 没有更多数据提示 -->
-        <view class="no-more-container" wx:if="{{!loading && page >= totalPages && wallpapers.length > 0}}">
+        <view class="no-more-container" wx:if="{{!loading && page >= totalPages && avatars.length > 0}}">
           <text class="no-more-text">已经到底了</text>
         </view>
       </view>
