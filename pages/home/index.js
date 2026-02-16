@@ -2,6 +2,7 @@
 const { request } = require('../../config/request');
 const { API_ENDPOINTS } = require('../../config/api');
 const cdn = require('../../utils/cdn');
+const downloadUtil = require('../../utils/download');
 
 Page({
   data: {
@@ -341,48 +342,15 @@ Page({
   downloadWallpaper(e) {
     const wallpaper = e.detail.wallpaper || this.data.currentPreviewWallpaper;
     if (wallpaper) {
-      // 显示下载中提示
-      wx.showLoading({
-        title: '下载中...',
-        mask: true
-      });
-      
-      // 下载图片到本地
-      wx.downloadFile({
-        url: wallpaper.image,
-        success: (res) => {
-          if (res.statusCode === 200) {
-            // 保存图片到相册
-            wx.saveImageToPhotosAlbum({
-              filePath: res.tempFilePath,
-              success: () => {
-                wx.hideLoading();
-                wx.showToast({
-                  title: '下载成功',
-                  icon: 'success',
-                  duration: 2000
-                });
-              },
-              fail: (err) => {
-                wx.hideLoading();
-                console.error('保存到相册失败:', err);
-                wx.showToast({
-                  title: '保存失败，请检查权限',
-                  icon: 'none',
-                  duration: 3000
-                });
-              }
-            });
-          }
+      // 使用统一下载工具
+      downloadUtil.downloadImage(wallpaper.image, {
+        loadingText: '下载中...',
+        successText: '下载成功',
+        onSuccess: () => {
+          console.log('壁纸下载成功');
         },
-        fail: (err) => {
-          wx.hideLoading();
-          console.error('下载失败:', err);
-          wx.showToast({
-            title: '下载失败，请重试',
-            icon: 'none',
-            duration: 3000
-          });
+        onError: (err) => {
+          console.error('壁纸下载失败:', err);
         }
       });
     }

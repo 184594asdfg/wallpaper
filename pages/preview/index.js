@@ -84,6 +84,8 @@ Page({
     wx.navigateBack();
   },
 
+
+
   // 下载壁纸
   downloadWallpaper() {
     if (!this.data.wallpaperData) {
@@ -206,5 +208,7 @@ Page({
         });
       }
     });
-  }
+  },
+
+
 })

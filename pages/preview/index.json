@@ -2,6 +2,7 @@
   "navigationBarTitleText": "预览",
   "navigationStyle": "custom",
   "disableSwipeBack": true,
+  "enableShareAppMessage": true,
   "tabBar": {
     "custom": true
   }

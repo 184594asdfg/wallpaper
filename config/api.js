@@ -2,7 +2,7 @@
 const API_CONFIG = {
   // 本地环境
   development: {
-    baseUrl: 'http://localhost:3003/api'
+    baseUrl: 'http://192.168.31.213:3003/api'
   },
   // 线上环境
   production: {
