@@ -45,7 +45,7 @@
 }
 
 .category-tab {
-  padding: 16rpx 28rpx;
+  padding: 16rpx 20rpx;
   background: transparent;
   border-radius: 0rpx;
   font-size: 28rpx;
@@ -55,7 +55,7 @@
   border: none;
   white-space: nowrap;
   text-align: center;
-  min-width: 100rpx;
+  flex-shrink: 0;
   position: relative;
 }
 

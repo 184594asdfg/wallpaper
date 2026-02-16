@@ -1,5 +1,6 @@
 // computer.js
 const { request } = require('../../config/request');
+const { API_ENDPOINTS } = require('../../config/api');
 const cdn = require('../../utils/cdn');
 
 Page({
@@ -9,14 +10,14 @@ Page({
     navBarTop: 0,
     // 内容区域相关值
     contentTop: 0,
+    // 当前选中的分类信息
+    currentCategory: {
+      name: '最新上传', // 当前选中的分类名称
+      value: 'latest'   // 当前选中的分类value值
+    },
     // 类型相关值
     currentType: 'latest',
-    types: [
-      { id: 'latest', name: '最新上传' },
-      { id: 'daily', name: '一天最热' },
-      { id: 'weekly', name: '一周排行' },
-      { id: 'monthly', name: '人气月榜' }
-    ],
+    types: [],
     // 壁纸数据
     wallpapers: [],
     // 分页相关值
@@ -31,10 +32,15 @@ Page({
     this.calculateNavBarPosition(); // 计算导航栏位置和高度
     this.calculateContentPosition(); // 计算内容区域位置
     this.calculateTypeSectionPosition(); // 计算类型区域位置
-    this.loadWallpapers(); // 加载壁纸数据
     
     // 绑定页面滚动事件
     this.bindPageScroll();
+    
+    // 先加载分类数据，然后加载壁纸数据
+    this.loadCategories().then(() => {
+      // 分类数据加载完成后，再加载壁纸数据
+      this.loadWallpapers();
+    });
   },
   
   // 绑定页面滚动事件
@@ -42,6 +48,60 @@ Page({
 
   },
   
+  // 加载分类数据
+  loadCategories() {
+    return new Promise((resolve, reject) => {
+      // 调用分类接口
+      request({
+        url: API_ENDPOINTS.categories,
+        data: {
+          module_type: 1002 // 电脑壁纸查询固定值1002
+        }
+      }).then((response) => {
+        console.log('电脑壁纸分类接口返回数据:', response);
+        // 成功获取分类数据
+        if (response.list ) {
+          // 处理接口返回的数据结构
+          const firstCategory = response.list[0];
+          
+          // 更新当前选中的分类信息
+          this.setData({
+            currentCategory: {
+              name: firstCategory.name,
+              value: firstCategory.value
+            }
+          });
+          
+          const types = response.list.map((item, index) => ({
+            id: item.id,
+            name: item.name,
+            value: item.value,
+            active: index === 0 // 默认第一个分类为选中状态
+          }));
+          
+          console.log('处理后的分类数据:', types);
+          this.setData({
+            types: types
+          });
+          resolve(types);
+        } else {
+          // 接口返回数据异常，保持空数组
+          console.warn('分类接口返回数据异常');
+          this.setData({
+            types: []
+          });
+          resolve([]);
+        }
+      }).catch((err) => {
+        console.error('加载分类数据失败:', err);
+        // 接口调用失败，保持空数组
+        this.setData({
+          types: []
+        });
+        reject(err);
+      });
+    });
+  },
   
   // 页面滚动到底部事件
   onReachBottom() {

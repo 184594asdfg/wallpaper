@@ -170,32 +170,32 @@
 .category-section {
   background: #fff;
   border-radius: 0rpx;
-  padding: 0rpx 16rpx 16rpx;
+  padding: 0rpx 0rpx 16rpx;
   margin-bottom: 0rpx;
   box-shadow: none;
   position: sticky;
   z-index: 997;
   padding-top: 8rpx;
   margin-top: 0;
+  width: 100vw;
+  box-sizing: border-box;
 }
 
 .category-tabs {
   display: flex;
   flex-wrap: nowrap;
-  gap: 8rpx;
+  gap: 0rpx;
   align-items: center;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
-}
-
-.category-tabs::-webkit-scrollbar {
-  display: none;
+  padding: 0 20rpx;
+  justify-content: center;
 }
 
 .category-tab {
-  padding: 16rpx 28rpx;
+  padding: 16rpx 20rpx;
   background: transparent;
   border-radius: 0rpx;
   font-size: 28rpx;
@@ -205,7 +205,7 @@
   border: none;
   white-space: nowrap;
   text-align: center;
-  min-width: 100rpx;
+  flex-shrink: 0;
   position: relative;
 }
 
@@ -291,8 +291,6 @@
 
 .cover-item {
   float: left;
-  width: calc((100% - 32rpx) / 3);
-  margin-right: 16rpx;
   aspect-ratio: 9/16;
   border-radius: 16rpx;
   position: relative;
@@ -307,7 +305,23 @@
   overflow: hidden;
 }
 
-.cover-item:nth-child(3n) {
+/* 一行3个的样式（默认） */
+.cover-item-3-col {
+  width: calc((100% - 32rpx) / 3);
+  margin-right: 16rpx;
+}
+
+.cover-item-3-col:nth-child(3n) {
+  margin-right: 0;
+}
+
+/* 一行2个的样式（当currentCategory.id为26时） */
+.cover-item-2-col {
+  width: calc((100% - 16rpx) / 2);
+  margin-right: 16rpx;
+}
+
+.cover-item-2-col:nth-child(2n) {
   margin-right: 0;
 }
 

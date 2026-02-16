@@ -1,5 +1,6 @@
-// avatar.js
+// moments.js
 const { request } = require('../../config/request');
+const { API_ENDPOINTS } = require('../../config/api');
 const cdn = require('../../utils/cdn');
 
 Page({
@@ -9,14 +10,14 @@ Page({
     navBarTop: 0,
     // 内容区域相关值
     contentTop: 0,
+    // 当前选中的分类信息
+    currentCategory: {
+      name: '推荐', // 当前选中的分类名称
+      value: '0'    // 当前选中的分类value值
+    },
     // 类型相关值
     currentType: 'latest',
-    types: [
-      { id: 0, name: '推荐', value: '0', active: true },
-      { id: 2, name: '最新', value: '1', active: false },
-      { id: 1, name: '情侣', value: '1', active: false },
-
-    ],
+    types: [],
     // 头像数据
     avatars: [],
     // 分页相关值
@@ -39,7 +40,6 @@ Page({
     this.calculateNavBarPosition(); // 计算导航栏位置和高度
     this.calculateContentPosition(); // 计算内容区域位置
     this.calculateTypeSectionPosition(); // 计算类型区域位置
-    this.loadAvatars(); // 加载头像数据
     this.updateDateTime(); // 更新时间和日期
     // 每秒更新一次时间
     this.timeInterval = setInterval(() => {
@@ -48,6 +48,12 @@ Page({
     
     // 绑定页面滚动事件
     this.bindPageScroll();
+    
+    // 先加载分类数据，然后加载头像数据
+    this.loadCategories().then(() => {
+      // 分类数据加载完成后，再加载头像数据
+      this.loadAvatars();
+    });
   },
   
   // 绑定页面滚动事件
@@ -67,6 +73,61 @@ Page({
     this.loadAvatars(true);
   },
   
+  // 加载分类数据
+  loadCategories() {
+    return new Promise((resolve, reject) => {
+      // 调用分类接口
+      request({
+        url: API_ENDPOINTS.categories,
+        data: {
+          module_type: 1006 // 朋友圈背景查询固定值1006
+        }
+      }).then((response) => {
+        console.log('朋友圈背景分类接口返回数据:', response);
+        // 成功获取分类数据
+        if (response.list) {
+          // 处理接口返回的数据结构
+          const firstCategory = response.list[0];
+          
+          // 更新当前选中的分类信息
+          this.setData({
+            currentCategory: {
+              name: firstCategory.name,
+              value: firstCategory.value
+            }
+          });
+          
+          const types = response.list.map((item, index) => ({
+            id: item.id,
+            name: item.name,
+            value: item.value,
+            active: index === 0 // 默认第一个分类为选中状态
+          }));
+          
+          console.log('处理后的分类数据:', types);
+          this.setData({
+            types: types
+          });
+          resolve(types);
+        } else {
+          // 接口返回数据异常，保持空数组
+          console.warn('分类接口返回数据异常');
+          this.setData({
+            types: []
+          });
+          resolve([]);
+        }
+      }).catch((err) => {
+        console.error('加载分类数据失败:', err);
+        // 接口调用失败，保持空数组
+        this.setData({
+          types: []
+        });
+        reject(err);
+      });
+    });
+  },
+  
   // 加载头像数据
   loadAvatars(isLoadMore = false, type = null) {
     // 防止重复加载
@@ -80,6 +141,11 @@ Page({
       page: isLoadMore ? this.data.page + 1 : 1,
       limit: this.data.limit
     };
+    
+    // 如果当前有选中的分类，添加tags参数
+    if (this.data.currentCategory && this.data.currentCategory.name) {
+      requestData.tags = this.data.currentCategory.name;
+    }
     
     // 如果传入了type参数，添加到请求数据中
     if (type !== null) {

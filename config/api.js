@@ -31,6 +31,20 @@ const getBaseUrl = () => {
   return API_CONFIG[env].baseUrl;
 };
 
+// API接口定义
+const API_ENDPOINTS = {
+  // 分类相关接口
+  categories: '/category-types',
+  // 壁纸相关接口
+  mobileWallpapers: '/wallpaper/mobile',
+  chatWallpapers: '/wallpaper/chat',
+  computerWallpapers: '/wallpaper/computer',
+  momentsWallpapers: '/wallpaper/moments',
+  avatarWallpapers: '/wallpaper/avatar',
+  emojiWallpapers: '/wallpaper/emoji'
+};
+
 module.exports = {
-  getBaseUrl
+  getBaseUrl,
+  API_ENDPOINTS
 };

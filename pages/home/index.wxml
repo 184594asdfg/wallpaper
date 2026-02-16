@@ -74,7 +74,7 @@
   <view class="covers-section">
     <view class="covers-grid">
       <view 
-        class="cover-item" 
+        class="cover-item {{currentCategory.id == 26 ? 'cover-item-2-col' : 'cover-item-3-col'}}" 
         wx:for="{{wallpapers}}" 
         wx:key="id"
       >

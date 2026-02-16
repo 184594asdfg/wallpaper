@@ -1,18 +1,18 @@
 // home.js
 const { request } = require('../../config/request');
+const { API_ENDPOINTS } = require('../../config/api');
 const cdn = require('../../utils/cdn');
 
 Page({
   data: {
+    // 当前选中的分类信息
+    currentCategory: {
+      name: '推荐', // 当前选中的分类名称
+      value: 0,     // 当前选中的分类value值
+      id: 1         // 素材类型ID
+    },
     // 分类数据
-    categories: [
-      { id: 1, name: '推荐', value: 0, active: true },
-      { id: 2, name: '锁屏', value: 1, active: false },
-      { id: 3, name: '风景', value: 3, active: false },
-      { id: 5, name: '动漫', value: 4, active: false },
-      { id: 6, name: '极简', value: 5, active: false },
-      { id: 7, name: '文字', value: 6, active: false },
-    ],
+    categories: [],
     // 轮播图数据
     carouselList: [
       { 
@@ -49,7 +49,6 @@ Page({
   
   onLoad() {
     // 页面加载时执行
-    this.loadWallpapers(0); // 默认加载手机壁纸
     this.calculateNavBarPosition(); // 计算导航栏位置和高度
     this.calculateCategoryPosition(); // 计算分类区域位置
     this.calculatePreviewNavPosition(); // 计算预览页面导航栏位置
@@ -61,6 +60,12 @@ Page({
     
     // 绑定页面滚动事件
     this.bindPageScroll();
+    
+    // 先加载分类数据，然后加载壁纸数据
+    this.loadCategories().then(() => {
+      // 分类数据加载完成后，再加载壁纸数据
+      this.loadWallpapers(0);
+    });
   },
   
   // 计算导航栏位置和高度
@@ -142,6 +147,62 @@ Page({
     });
   },
   
+  // 加载分类数据
+  loadCategories() {
+    return new Promise((resolve, reject) => {
+      // 调用分类接口
+      request({
+        url: API_ENDPOINTS.categories,
+        data: {
+          module_type: 1001 // 首页查询固定值1001
+        }
+      }).then((response) => {
+        console.log('分类接口返回数据:', response);
+        // 成功获取分类数据
+        if (response.list && response.list.length > 0) {
+          // 处理接口返回的数据结构
+          const firstCategory = response.list[0];
+          
+          // 更新当前选中的分类信息
+          this.setData({
+            currentCategory: {
+              name: firstCategory.name,
+              value: firstCategory.value,
+              id: firstCategory.id
+            }
+          });
+
+          const categories = response.list.map((item, index) => ({
+            id: item.id,
+            name: item.name,
+            value: item.value,
+            active: index === 0 // 默认第一个分类为选中状态
+          }));
+          
+          console.log('处理后的分类数据:', categories);
+          this.setData({
+            categories: categories
+          });
+          resolve(categories);
+        } else {
+          // 接口返回数据异常，保持空数组
+          console.warn('分类接口返回数据异常');
+          this.setData({
+            categories: []
+          });
+          resolve([]);
+        }
+      }).catch((err) => {
+        console.error('加载分类数据失败:', err);
+        // 接口调用失败，保持空数组
+        this.setData({
+          categories: []
+        });
+        reject(err);
+      });
+    });
+  },
+  
   // 加载壁纸数据
   loadWallpapers(category, isLoadMore = false) {
     // 防止重复加载
@@ -150,13 +211,21 @@ Page({
     // 设置加载状态
     this.setData({ loading: true });
     
+    // 构建请求参数
+    const requestData = {
+      page: isLoadMore ? this.data.page + 1 : 1,
+      limit: this.data.limit
+    };
+    
+    // 如果当前有选中的分类，添加tags参数
+    if (this.data.currentCategory && this.data.currentCategory.name) {
+      requestData.tags = this.data.currentCategory.name;
+    }
+    
     // 调用壁纸接口
     request({
       url: '/wallpaper/mobile',
-      data: {
-        page: isLoadMore ? this.data.page + 1 : 1,
-        limit: this.data.limit
-      }
+      data: requestData
     }).then((data) => {
       // 成功获取数据
       // 处理接口返回的数据结构
@@ -196,12 +265,26 @@ Page({
   
   // 分类点击事件
   onCategoryClick(e) {
-    const category = e.currentTarget.dataset.category;
+    const categoryValue = e.currentTarget.dataset.category;
+    
+    // 查找对应的分类信息
+    const selectedCategory = this.data.categories.find(cat => cat.value === categoryValue);
+    
+    if (selectedCategory) {
+      // 更新当前选中的分类信息
+      this.setData({
+        currentCategory: {
+          name: selectedCategory.name,
+          value: selectedCategory.value,
+          id: selectedCategory.id
+        }
+      });
+    }
     
     // 更新分类状态
     const updatedCategories = this.data.categories.map(cat => ({
       ...cat,
-      active: cat.value === category
+      active: cat.value === categoryValue
     }));
     
     this.setData({
@@ -209,7 +292,7 @@ Page({
     });
     
     // 加载对应分类的壁纸
-    this.loadWallpapers(category);
+    this.loadWallpapers(categoryValue);
   },
   
   // 预览壁纸
